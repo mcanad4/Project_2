@@ -1,0 +1,1 @@
+FLASK_APP=Indy/app.py flask run

@@ -5,8 +5,22 @@
 -- DROP TABLE marion_county_food_pantries_sites;
 -- DROP TABLE covid_count_per_zip_all;
 -- DROP TABLE marion_county_zips;
+-- Drop TABLE unempl_claims;
 
 -- Create tables
+CREATE TABLE unempl_claims (
+	index VARCHAR Primary Key,
+	year VARCHAR,
+	month VARCHAR,
+	timeframe VARCHAR,
+	month_code VARCHAR,
+	week VARCHAR,
+	continued_claims int,
+	cont_pct_change_same_wk_last_year VARCHAR,	
+	init_claims	int,
+	init_pct_change_same_wk_last_year VARCHAR
+);
+
 CREATE TABLE marion_county_zips (
 	Zip_Code VARCHAR Primary Key,
 	County VARCHAR
@@ -93,7 +107,7 @@ from zip_code_boundry
 Create view zip_code_boundaries as
 Select distinct
 objectid, 
-cast (zipcode as int), 
+zipcode, 
 cast (shapearea as float), 
 cast (shapelen as float)
 From zip_code_boundry
@@ -115,10 +129,10 @@ from covid_count_per_zip_all
 
 Create view covid_count as
 Select distinct
-cast (zip_cd as int), 
-cast (PATIENT_COUNT as Int), 
-cast (population as Int), 
-cast (percentage as Int)
+zip_cd, 
+PATIENT_COUNT, 
+population, 
+percentage
 From covid_count_per_zip_all
 
 Select *
@@ -126,9 +140,27 @@ from marion_county_zips
 
 Create view marion_county as
 Select distinct
-cast (zip_code as Int), 
+zip_code, 
 county
 From marion_county_zips
+
+Select 
+from unempl_claims
+limit 10;
+
+Create view unemploy as
+Select distinct
+index,
+year,
+month,
+timeframe,
+month_code,
+week,
+continued_claims,
+cont_pct_change_same_wk_last_year,	
+init_claims,
+init_pct_change_same_wk_last_year
+From unempl_claims
 
 Create view covid_marion_county as
 Select 
@@ -140,7 +172,6 @@ b.population,
 b.percentage
 From zip_code_boundaries as a left join
 covid_count as b on (a.zipcode = b. zip_cd)
-
 
 
 
