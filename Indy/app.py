@@ -7,6 +7,12 @@ from flask import (
     request,
     redirect)
 
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, func
+from config import username, password, dbhost, dbport, dbname 
+
 #################################################
 # Flask Setup
 #################################################
@@ -16,40 +22,25 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 
-from flask_sqlalchemy import SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///db.sqlite"
+# Save reference to the table (update this to new table names)
+Covid = Base.classes.covidtable
 
-# Remove tracking modifications
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#################################################
+db_connection_str = os.environ.get('DATABASE_URL', '') or "postgresql://{username}:{password}@{dbhost}:{dbport}/{dbname}"
 
-db = SQLAlchemy(app)
+engine = create_engine(db_connection_str)
 
-from .models import Pet
-
+# reflect an existing database into a new model
+Base = automap_base()
+# reflect the tables
+Base.prepare(engine, reflect=True)
 
 # create route that renders index.html template
 @app.route("/")
 def home():
     return render_template("index.html")
 
-
-# Query the database and send the jsonified results
-@app.route("/send", methods=["GET", "POST"])
-def send():
-    if request.method == "POST":
-        name = request.form["petName"]
-        lat = request.form["petLat"]
-        lon = request.form["petLon"]
-
-        pet = Pet(name=name, lat=lat, lon=lon)
-        db.session.add(pet)
-        db.session.commit()
-        return redirect("/", code=302)
-
-    return render_template("form.html")
-
-
-@app.route("/api/pals")
+@app.route("/api/covid")
 def pals():
     results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
 
