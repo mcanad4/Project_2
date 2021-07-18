@@ -1,48 +1,94 @@
+// For live deployment, wrap unemployment chart in a function
+// function buildClaimPlot() {
+
+//     /* data route */
+//   const url = "/api/unemploy";
+//   d3.json(url).then(function(response) {
+
+//     console.log(response);
+
+
+//   }
+
 // Define dimensions and append to svg for unemployment chart
-var width = parseFloat(d3.select('.chart').style('width'));
-var height = .66*width;
+var svgWidth = parseFloat(d3.select('.chart').style('width'));
+var svgHeight = .66*svgWidth;
 var svg = d3.select('.chart')
     .append('svg')
-    .style('width',width)
-    .style('height',height);
+    .style('width',svgWidth)
+    .style('height',svgHeight);
 var margin = {
     top: 10,
-    right: 20,
+    right: 40,
     bottom: 20,
-    left: 20
+    left: 40
 }
-
 
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);   
 
 // Read in the data for unemployment
-d3.csv("assets/jobless_claims/unempl_claims.csv").then(function(claimsData) {
+d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
+  
+
  
     //index,year,month,timeframe,month_code,week,
     //continued_claims,cont_pct_change_same_wk_last_year,init_claims,init_pct_change_same_wk_last_year    
     
     claimsData.forEach(function(data) {
-        data.index = +data.index
-        data.year = +data.year;
-        // data.month = +data.month;
-        // data.timeframe = +data.timeframe;
-        // data.month_code = +data.monthcode;
-        data.week = +data.week;
-        data.continued_claims = +data.continued_claims;
-        data.init_claims = +data.init_claims;
+    data.index = +data.index
+    data.year = +data.year;
+    data.week = +data.week;
+    data.continued_claims = +data.continued_claims;
+    data.init_claims = +data.init_claims;
+       
+       // These result in NaN if use the unary + operator
+       // data.month = +data.month;
+       // data.timeframe = +data.timeframe;
+       // data.month_code = +data.monthcode;
        // data.cont_pct_change_same_wk_last_year = +data.cont_pct_change_same_wk_last_year; 
        // data.init_pct_change_same_wk_last_year = +data.init_pct_change_same_wk_last_year;
 
     });
+
+    var width = svgWidth - margin.left - margin.right;
+    var height = svgHeight - margin.top - margin.bottom;
+
+
+    var xMax = d3.max(claimsData, d => d.index);
+    console.log(xMax);
+    var xLinearScale = d3.scaleLinear()
+        .domain(d3.extent(claimsData, d => d.index))
+        .range([0, width]);
+
+  
+    var yLinearScale = d3.scaleLinear().range([height, 0]);
     
-    // var dates = `${data.year}-${data.month}(week ${data.week})`
-    // var xLinearScale = xScale(claimsData, dates)
+    var contMax = d3.max(claimsData, d => d.continued_claims);
+    var initMax = d3.max(claimsData, d => d.init_claims);
+    var yMax = contMax + initMax;
     
+   
+
+    xLinearScale.domain([0, xMax + 5]);
+    yLinearScale.domain([0, yMax]);
+
+    var bottomAxis = d3.axisBottom(xLinearScale);
+    var leftAxis = d3.axisLeft(yLinearScale);
+   
+    chartGroup.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(bottomAxis);
+
+    chartGroup.append("g").call(leftAxis);
+
+    console.log(contMax)
+    console.log(initMax)
+    console.log(yMax)
+    
+
     // Print the data
     console.log(claimsData);
-
-
 
 
 });
@@ -67,7 +113,7 @@ d3.csv("assets/jobless_claims/unempl_claims.csv").then(function(claimsData) {
 // }).addTo(indyMap);
 
 
-
+//**********FROM PET PALS EXAMPLE */
 // function buildPlot() {
 
 //     /* data route */
