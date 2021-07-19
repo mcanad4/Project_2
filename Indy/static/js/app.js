@@ -1,3 +1,10 @@
+
+
+// =============================
+// Unemployment Chart
+// =============================
+
+
 // For live deployment, wrap unemployment chart in a function
 // function buildClaimPlot() {
 
@@ -28,38 +35,44 @@ var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);   
 
 // Read in the data for unemployment
-d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
+d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
   
 
  
+    // Parse and format the data
+
     //index,year,month,timeframe,month_code,week,
     //continued_claims,cont_pct_change_same_wk_last_year,init_claims,init_pct_change_same_wk_last_year    
     
+    //var parseYearMonth = d3.timeParse("%Y-%B");
+    
     claimsData.forEach(function(data) {
-    data.index = +data.index
-    data.year = +data.year;
-    data.week = +data.week;
-    data.continued_claims = +data.continued_claims;
-    data.init_claims = +data.init_claims;
+    
+        
+        data.index = +data.index;
+        data.year = +data.year;
+        data.week = +data.week;
+        data.continued_claims = +data.continued_claims;
+        data.init_claims = +data.init_claims;
        
        // These result in NaN if use the unary + operator
-       // data.month = +data.month;
-       // data.timeframe = +data.timeframe;
-       // data.month_code = +data.monthcode;
-       // data.cont_pct_change_same_wk_last_year = +data.cont_pct_change_same_wk_last_year; 
-       // data.init_pct_change_same_wk_last_year = +data.init_pct_change_same_wk_last_year;
+       data.month = +data.month;
+       data.timeframe = data.timeframe;
+       data.month_code = +data.monthcode;
+       data.cont_pct_change_same_wk_last_year = +data.cont_pct_change_same_wk_last_year; 
+       data.init_pct_change_same_wk_last_year = +data.init_pct_change_same_wk_last_year;
 
     });
 
     var width = svgWidth - margin.left - margin.right;
     var height = svgHeight - margin.top - margin.bottom;
-
-
+    
     var xMax = d3.max(claimsData, d => d.index);
     console.log(xMax);
+
     var xLinearScale = d3.scaleLinear()
-        .domain(d3.extent(claimsData, d => d.index))
-        .range([0, width]);
+    .domain(d3.extent(claimsData, d => d.index))
+    .range([0, width]);
 
   
     var yLinearScale = d3.scaleLinear().range([height, 0]);
@@ -68,10 +81,8 @@ d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
     var initMax = d3.max(claimsData, d => d.init_claims);
     var yMax = contMax + initMax;
     
-   
-
     xLinearScale.domain([0, xMax + 5]);
-    yLinearScale.domain([0, yMax]);
+    yLinearScale.domain([0, yMax + 100]);
 
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
@@ -82,6 +93,18 @@ d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
 
     chartGroup.append("g").call(leftAxis);
 
+  
+        
+    var contLine = d3.line()
+    
+    .x(d => xLinearScale(d.index))
+    .y(d => yLinearScale(d.continued_claims));
+
+    chartGroup
+    .append("path")
+    .attr("d", contLine(claimsData))
+    .classed("line teal", true);
+
     console.log(contMax)
     console.log(initMax)
     console.log(yMax)
@@ -89,7 +112,6 @@ d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
 
     // Print the data
     console.log(claimsData);
-
 
 });
 
