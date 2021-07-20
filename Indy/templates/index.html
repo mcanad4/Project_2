@@ -40,7 +40,7 @@
   <div class="container-fluid p-4">
     
         
-    <div class="row bg-white p-4 ms-4 me-4"> <!--id="headings"-->
+    <div class="row bg-white p-4 ms-2 me-2">
       <h1>Visualizations Title</h1>
       <div class= "col-md-6 pt-md-4 pt-sm-4">
         <h3> Testing Map 1</h3> <!-- can add class="text-info fw-bold" following first h3-->
@@ -59,31 +59,46 @@
     </div>
     
     
-    <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-4 me-4 justify-content-evenly bg-white">
+    <div class="row mt-md-0 mt-sm-0 p-md- p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
       <h3>Marion County Unemployment Claims</h3>
         
       <div class= "col-md-9 pt-md-4 pt-sm-4 pb-4">
         <div class="chart">    
-                    
         </div>
-        
       </div>  
       
       <div class= "col-md-3 bg-white">
+        <h5><b>Timeframe:</b></h5>
+        <select id="selDataset" onchange="optionChanged(this.value)"></select> 
+          
+          <div id="gaugeInit">          
+          
+          </div>
+          
+          <div id="gaugeCont">
+
+          </div>
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text </p>
+              <div id="gaugeInit">          
+            
+              </div>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-            <br><br><br><br><br><br>
+            <br><br><br><br>
           </div>
           
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text </p>
+              
+                <div id="gaugeCont">
+
+                </div>
               <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-              <br><br><br><br><br><br>
+              <br><br><br><br>
             </div>
 
           </div>
@@ -92,21 +107,24 @@
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text </p>
               <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-              <br><br><br><br><br><br>
+              <br><br><br><br>
             </div>
-
           </div>
         </div>
       </div>
-        
     </div>
-        
-  </div>
-        
-  </div>
-         
+     
+    <!-- Footer-->
+    <div class="row bg-success p-4 ms-2 me-2">
+      <div id="footer">
+        <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</br></p>
+        <p> </p>  
+      </div> 
+    </div>
+  </div>       
   
-
+      
+ 
   <!-- D3 -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
 
@@ -125,8 +143,7 @@
   <!-- JS -->
   <script type="text/javascript" src="../static/js/app.js"></script>
   
-
-   <!-- JS, with live deployment -->
+  <!-- JS, with live deployment -->
   <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
 
 
