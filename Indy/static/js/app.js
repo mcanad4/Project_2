@@ -32,7 +32,7 @@ var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);   
 
 // Read in the data for unemployment
-d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
+d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
   
     // Parse and format the data
 
@@ -168,8 +168,7 @@ var granimInstance = new Granim({
                 ['#ff9966', '#ff5e62'], 
                 ['#22E4AC', '#0575E6'],
                 ['#e1eec3', '#FFB302']
-                // FFBF00 gold
-                //FFB302 gold bar
+                
                 // ['#ff9966', '#ff5e62'],
                 // ['#00F260', '#0575E6'],
                 // ['#e1eec3', '#f05053']
