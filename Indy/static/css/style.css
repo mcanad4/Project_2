@@ -5,33 +5,54 @@ body {
   }
   
   
-  h1 {
-    color: #6A5ACD }
- 
+h1 {
+  color: #6A5ACD }
 
-  h3 {
-    color:cornflowerblue 
-  }
- 
- 
-  /* set map, body, and html to 100% of the screen size */ 
-  #map,
-  body,
-  html {
-    height: 100%;
-    min-height: 600px;
-  }
 
-  .line {
-    fill: none;
-    stroke-width: 2px;
-  }
-  
-  .purple {
-    stroke: purple;
-  }
-  
-  .teal{
-    stroke: teal;
-  }
-  
+h3 {
+  color: darkblue 
+}
+
+#footer{
+  font-size: 24px;
+  color: white;
+}
+
+/* set map, body, and html to 100% of the screen size */ 
+#map,
+body,
+html {
+  height: 100%;
+  min-height: 600px;
+}
+
+/* .chart {
+  height: 100%;
+  //min-height: 400px;
+  max-width: 1000px
+} */
+
+/* .card {
+  border: none;
+} */
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.purple {
+  stroke: purple;
+}
+
+.teal{
+  stroke: teal;
+}
+
+.darkblue{
+  stroke: darkblue; 
+} 
+
+.orange{
+  stroke: orange;
+}
