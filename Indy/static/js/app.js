@@ -1,30 +1,3 @@
-// =====================
-// Covid Map
-// =====================
-
-
-// =====================
-// Food Pantry Map
-// =====================
-
-// Create a leaflet map with Indianapolis at the center
-// set Lat and Longitude 39.76853 -86.15799
-// var indyMap = L.map('map', {
-//   center: [39.76853, -86.15799],
-//   zoom: 8
-// });
-
-// // Adding a tile layer (the background map image) to our map
-// // We use the addTo method to add objects to our map
-// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-//   tileSize: 512,
-//   maxZoom: 18,
-//   zoomOffset: -1,
-//   id: "mapbox/streets-v11",
-//   accessToken: API_KEY
-// }).addTo(indyMap);
-
 
 
 // =====================
@@ -35,13 +8,11 @@
 // function buildClaimPlot() {
 
 //     /* data route */
-//   const url = "/api/unemploy";
-//   d3.json(url).then(function(response) {
+//     const url = "/api/unemploy";
+//     d3.json(url).then(function(response) {
 
 //     console.log(response);
-
-
-//   }
+// }
 
 // Define dimensions and append to svg for unemployment chart
 var svgWidth = parseFloat(d3.select('.chart').style('width'));
@@ -52,9 +23,9 @@ var svg = d3.select('.chart')
     .style('height',svgHeight);
 var margin = {
     top: 10,
-    right: 40,
+    right: 80,
     bottom: 20,
-    left: 40
+    left: 80
 }
 
 var chartGroup = svg.append("g")
@@ -93,7 +64,7 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
     var contMax = d3.max(claimsData, d => d.continued_claims);
     var initMax = d3.max(claimsData, d => d.init_claims);
 
-    var yMax = 46000;
+    var yMax = 40000;
     
     // Create the scales and line for continued claims
     var xLinearScaleCont = d3.scaleLinear()
@@ -123,9 +94,9 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
         .attr("d", contLine(claimsData))
         .classed("line teal", true);
 
-    console.log(contMax)
-    console.log(initMax)
-    console.log(yMax)
+    console.log(`contMax: ${contMax}`)
+    console.log(`initMax: ${initMax}`)
+
     
     // Create the initLine and the totalLine (using same x and y scale as the continued claims)
     var initLine = d3.line()    
@@ -137,6 +108,14 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
         .attr("d", initLine(claimsData))
         .classed("line orange", true);
 
+    var labelsGroup = chartGroup.append("g")
+        .attr("transform", `translate(${-60}, ${height / 2})`);
+    
+    labelsGroup.append("text")
+       .attr("transform", "rotate(-90)")
+       .attr("text.anchor", "middle")
+       .text("Claims per Week");   
+  
     // var totalLine = d3.line()    
     //     .x(d => xLinearScaleCont(d.index))
     //     .y(d => yLinearScaleCont(d.init_claims + d.continued_claims));
@@ -148,7 +127,7 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
 
     // Print the data
     console.log(claimsData);
-
+    
 });
 
 // =====================================
@@ -156,15 +135,52 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
 // =====================================
 
 // Also wrap this in the function for the time series chart
-
-//d3.json(url).then(({timeframe}) => {
-//     timeframe.forEach(period => {
-//         d3.select("select").append("option").text(period);
+// d3.json("/assets/Clean/unemploy_clean2.json").then(({timeframe}) => {
+//     timeframe.forEach(time => {
+//         d3.select("select").append("option").text(time);
 //     });
 //     renderData();
 // });
 
-// Define the function that will display demographics and impact other charts
+// function renderData() {
+//     var sel = d3.select('select').node().value;
+//     console.log(`Timeframe Selection: ${sel}`);
+
+// }
+
+// function optionChanged() {
+//     renderData();
+// };
+
+
+// =====================================
+// JS Library Granim.js usage in footer
+// =====================================
+
+
+var granimInstance = new Granim({
+    element: '#canvas-basic',
+    direction: 'diagonal',
+    isPausedWhenNotInView: true,
+    states : {
+        "default-state": {
+            gradients: [
+                ['#ff9966', '#ff5e62'], 
+                ['#22E4AC', '#0575E6'],
+                ['#e1eec3', '#FFB302']
+                // FFBF00 gold
+                //FFB302 gold bar
+                // ['#ff9966', '#ff5e62'],
+                // ['#00F260', '#0575E6'],
+                // ['#e1eec3', '#f05053']
+            ]
+        }
+    }
+});
+
+
+
+// Define the function that will impact gauges
 // function renderData() {
     // var seeMe = d3.select('select').node()
     // console.log(seeMe)
@@ -230,3 +246,33 @@ d3.csv("/assets/Clean/unemploy_clean2.csv").then(function(claimsData) {
 // }
 
 // buildPlot();
+
+
+// =====================
+// Covid Map
+// =====================
+
+
+// =====================
+// Food Pantry Map
+// =====================
+
+// Create a leaflet map with Indianapolis at the center
+// set Lat and Longitude 39.76853 -86.15799
+// var indyMap = L.map('map', {
+//   center: [39.76853, -86.15799],
+//   zoom: 8
+// });
+
+// // Adding a tile layer (the background map image) to our map
+// // We use the addTo method to add objects to our map
+// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+//   tileSize: 512,
+//   maxZoom: 18,
+//   zoomOffset: -1,
+//   id: "mapbox/streets-v11",
+//   accessToken: API_KEY
+// }).addTo(indyMap);
+
+

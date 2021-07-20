@@ -18,7 +18,7 @@
 
   <!-- Link for css (swap out to the url link when deployment ready to be live)  -->  
   <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">  -->
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   -->
   
  
   <!-- If need a d3Style.css
@@ -59,7 +59,7 @@
     </div>
     
     
-    <div class="row mt-md-0 mt-sm-0 p-md- p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
+    <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
       <h3>Marion County Unemployment Claims</h3>
         
       <div class= "col-md-9 pt-md-4 pt-sm-4 pb-4">
@@ -115,13 +115,17 @@
     </div>
      
     <!-- Footer-->
-    <div class="row bg-success p-4 ms-2 me-2">
-      <div id="footer">
-        <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</br></p>
-        <p> </p>  
-      </div> 
-    </div>
-  </div>       
+    <div class="row ms-4 me-4">
+      <div class= "col-md-9">
+        <canvas id="canvas-basic">
+          
+        </canvas> 
+      </div>
+      <div class= "col-md-3 p-2"> 
+        <div id="footer"><p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
+        </div>
+      </div>
+    </div>       
   
       
  
@@ -138,13 +142,18 @@
 
   <!-- API key if needed, with live deployment
   <script src="{{ url_for('static', filename='js/config.js') }}"></script> -->
-
- 
+  
+  <!-- Bring in the file for granim.js -->
+  <script type="text/javascript" src="../static/js/granim.js"></script>
+  
+  <!-- Granim with live deployment -->
+  <!-- <script src="{{ url_for('static', filename='js/granim.js') }}"></script> -->
+  
   <!-- JS -->
   <script type="text/javascript" src="../static/js/app.js"></script>
   
   <!-- JS, with live deployment -->
-  <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
+ <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
 
 
   <!-- JavaScript Bundle with Popper -->

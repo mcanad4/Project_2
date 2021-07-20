@@ -10,13 +10,11 @@ h1 {
 
 
 h3 {
-  color: darkblue 
+  /* color: darkblue;  */
+  color: cornflowerblue;
 }
 
-#footer{
-  font-size: 24px;
-  color: white;
-}
+
 
 /* set map, body, and html to 100% of the screen size */ 
 #map,
@@ -27,9 +25,7 @@ html {
 }
 
 /* .chart {
-  height: 100%;
-  //min-height: 400px;
-  max-width: 1000px
+  max-width: 800px;
 } */
 
 /* .card {
@@ -55,4 +51,25 @@ html {
 
 .orange{
   stroke: orange;
+}
+
+#footer{
+  font-size: 22px;
+  color: white;
+  max-height: 40px;
+  text-align: right;
+  /* z-index: 1; */
+}
+
+#canvas-basic{
+  /* position: absolute; */
+  /* z-index: 2; */
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 80px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
