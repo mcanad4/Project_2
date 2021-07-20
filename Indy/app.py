@@ -64,7 +64,7 @@ def unemploy():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    results = session.query(Unemploy.index, Unemploy.year, Unemploy.month, Unemploy.timeframe, Unemploy.month_code, Unemploy.week).all()
+    results = session.query(Unemploy.index, Unemploy.year, Unemploy.month, Unemploy.timeframe, Unemploy.month_code, Unemploy.week, Unemploy.continued_claims, Unemploy.cont_pct_change_same_wk_last_year, Unemploy.init_claims, Unemploy.init_pct_change_same_wk_last_year).all()
     
     #for r in results:
     #    print(r._asdict())
