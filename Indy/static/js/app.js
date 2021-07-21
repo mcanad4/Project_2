@@ -102,16 +102,54 @@ function buildUnemplChart() {
         .text("Claims per Week");   
         
    
-
         // Add a legend
-        var legendKeys = ["Weekly Initial Claims", "Weekly Continued Claims"]
-
-        var lineLeg = svg.selectAll(".linelegend").data(legendKeys)
-            .enter().append("g")
-            .attr("class", "lineLegend")
-            .style("font-size", "12px");
+        // claimsLegend = d3.select(".chart").selectAll(".legend")
+        //     .enter()
+        //     .append("svg")
+        //     .attr("class", "legend");
         
-        lineLeg.append("text").text(`${legendKeys}`);
+        //     claimsLegend.append("rect")
+        //     .attr("x", 250)
+        //     .attr("y", 30)
+        //     .attr("rx", "8px")
+        //     .attr("width", 170)
+        //     .attr("height", 140)
+        //     .attr("fill", "#ffe9c0");
+
+        
+        
+        claimsLegend = svg.append("rect") 
+            .attr("x", 250)
+            .attr("y", 30)
+            .attr("rx", "8px")
+            .attr("width", 170)
+            .attr("height", 140)
+            .attr("fill", "#ffe9c0")
+            .attr("opacity", "0.8");
+
+        claimsLegend
+            .append("text")
+            .attr("x", 260)
+            .attr("y", 35)
+            .style("fill", "orange")
+            .text("Weekly Initial Claims");
+        
+        //     <svg class="svg-rect" width="50" height="40">
+        //     <rect x="0" y="0" rx="3" ry="3" width="50" height="40" fill="#e7e7e7"></rect>
+        //     <text x="50%" y="50%" text-anchor="middle" stroke="black" stroke-width="1px" dy=".3em">N/A</text>
+        // </svg>
+        
+        // var legendKeys = ["Weekly Initial Claims", "Weekly Continued Claims"]
+
+        // var lineLeg = svg.selectAll(".linelegend").data(legendKeys)
+        //     .enter()
+        //     .append("g")
+        //     .attr("class", "lineLegend")
+        //     .style("font-size", "12px")
+        //     .text("value", );
+            
+        
+        //lineLeg.append("text").text(`${legendKeys}`);
        
       
         // TOTAL CLAIMS (Init + Continued)
@@ -123,7 +161,7 @@ function buildUnemplChart() {
         //     .append("path")
         //     .attr("d", totalLine(claimsData))
         //     .classed("line purple", true);
-
+        
         var timeframes = [];
         claimsData.forEach(function(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -138,8 +176,8 @@ function buildUnemplChart() {
         var unique = timeframes.filter(uniqueValues);
         
         // TRYING TO GET UNIQUE TO SHOW UP AS DROPDOWN CHOICES:
-        d3.select('select').append('selDataset').text(unique);
-        // d3.select('selDataset').append('option').text(unique);
+        d3.select('SelDataset').append('options').text(unique);
+        //d3.select('select')?
         
         // Print the data
         console.log(claimsData);
