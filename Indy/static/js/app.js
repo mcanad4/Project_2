@@ -154,7 +154,7 @@ var granimInstance = new Granim({
     states : {
         "default-state": {
             gradients: [
-                ['#ff9966', '#ff5e62'], 
+                ['#e2a3ff', '#a171ff'], 
                 ['#22E4AC', '#0575E6'],
                 ['#e1eec3', '#FFB302']
             ]
@@ -266,7 +266,6 @@ buildFood();
 // =====================
 // Covid Map
 // =====================
-
 
 //***===========
 // Example from pet pals of function
