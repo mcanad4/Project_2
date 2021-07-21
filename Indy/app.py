@@ -35,7 +35,7 @@ print(Base.classes.keys())
 # Save reference to the table (update this to new table names)
 Bus = Base.classes.bus_clean
 # Covid = Base.classes.covid_clean
-# Food = Base.classes.food_clean
+Food = Base.classes.food_clean
 # Neighborhoods = Base.classes.neighborhoods_clean
 Unemploy = Base.classes.unemploy_clean
 # Zip = Base.classes.zip_clean
@@ -53,9 +53,23 @@ def bus():
 
     # Query all data in the table 
     results = session.query(Bus.objectid, Bus.description, Bus.identifier, Bus.latitude,  Bus.longitude).all()
-    session.close()
-    return jsonify(results)
 
+    new_results = [r._asdict() for r in results]
+    session.close()
+    return jsonify(new_results)
+
+# create route that renders all the data brought in from postgres
+@app.route("/api/food")
+def food():
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    # Query all data in the table 
+    results = session.query(Food.site_name, Food.hours, Food.zip, Food.latitude, Food.longitude).all()
+
+    new_results = [r._asdict() for r in results]
+    session.close()
+    return jsonify(new_results)
 
 # create route that renders all the data brought in from postgres
 @app.route("/api/unemploy")
@@ -63,17 +77,10 @@ def unemploy():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
+    # Query all data in the table 
     results = session.query(Unemploy.index, Unemploy.year, Unemploy.month, Unemploy.timeframe, Unemploy.month_code, Unemploy.week, Unemploy.continued_claims, Unemploy.cont_pct_change_same_wk_last_year, Unemploy.init_claims, Unemploy.init_pct_change_same_wk_last_year).all()
-    
-    #for r in results:
-    #    print(r._asdict())
 
     new_results = [r._asdict() for r in results]
-    
-
-    # First attempt at bringing all in, can't be jsonified
-
-    # results = session.query(Unemploy.index, Unemploy.year, Unemploy.month, Unemploy.timeframe, Unemploy.month_code, Unemploy.week, Unemploy.continued_claims, Unemploy.cont_pct_change_same_wk_last_year, Unemploy.init_claims, Unemploy.init_pct_change_same_wk_last_year).all()
     session.close()
 
     return jsonify(new_results)
