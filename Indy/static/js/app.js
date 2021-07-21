@@ -12,8 +12,8 @@ var svg = d3.select('.chart')
 var margin = {
     top: 10,
     right: 80,
-    bottom: 20,
-    left: 80
+    bottom: 60,
+    left: 160
 }
 
 var chartGroup = svg.append("g")
@@ -52,8 +52,8 @@ function buildUnemplChart() {
         
         // Create the scales and line for continued claims
         var xLinearScaleCont = d3.scaleLinear()
-        .domain(d3.extent(claimsData, d => d.index))
-        .range([0, width]);
+          .domain(d3.extent(claimsData, d => d.index))
+          .range([0, width]);
 
         var yLinearScaleCont = d3.scaleLinear().range([height, 0]);
         
@@ -64,10 +64,12 @@ function buildUnemplChart() {
         var leftAxis = d3.axisLeft(yLinearScaleCont);
     
         chartGroup.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(bottomAxis);
+            .attr("transform", `translate(0, ${height})`)
+            .style("font", "24px times")
+            .call(bottomAxis);
 
-        chartGroup.append("g").call(leftAxis);
+        chartGroup.append("g").call(leftAxis)
+            .style("font", "24px times");
         
         var contLine = d3.line()    
             .x(d => xLinearScaleCont(d.index))
@@ -93,10 +95,11 @@ function buildUnemplChart() {
             .classed("line orange", true);
 
         var labelsGroup = chartGroup.append("g")
-            .attr("transform", `translate(${-60}, ${height / 2})`);
+            .attr("transform", `translate(${-120}, ${height / 2})`);
         
         labelsGroup.append("text")
         .attr("transform", "rotate(-90)")
+        .style("font", "36px times")
         .attr("text.anchor", "middle")
         .text("Claims per Week");   
     
@@ -191,8 +194,12 @@ var granimInstance = new Granim({
 // }).addTo(indyMap);
 
 
-//**********FROM PET PALS EXAMPLE */
-// function buildbusPlot() {
+
+// =====================
+// Bus Map
+// =====================
+
+function buildBus() {
 
     /* data route */
   const url = "/api/bus";
@@ -208,8 +215,60 @@ var granimInstance = new Granim({
 
     console.log(busData);
 })
+}
+
+buildBus();
 
 
+// =====================
+// Food Pantry Map
+// =====================
+
+function buildFood() {
+
+    /* data route */
+  const url = "/api/food";
+  d3.json(url).then(function(foodData) {
+
+    foodData.forEach(function(data) {          
+        data.zip = parseInt(data.zip);
+        data.latitude = +data.latitude;
+        data.longitude = +data.longitude;
+    });
+
+    console.log(foodData);
+})
+}
+
+buildFood();
+
+
+
+// Create a leaflet map with Indianapolis at the center
+// set Lat and Longitude 39.76853 -86.15799
+// var indyMap = L.map('map', {
+//   center: [39.76853, -86.15799],
+//   zoom: 8
+// });
+
+// // Adding a tile layer (the background map image) to our map
+// // We use the addTo method to add objects to our map
+// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+//   tileSize: 512,
+//   maxZoom: 18,
+//   zoomOffset: -1,
+//   id: "mapbox/streets-v11",
+//   accessToken: API_KEY
+// }).addTo(indyMap);
+
+
+// =====================
+// Covid Map
+// =====================
+
+
+//***===========
 // Example from pet pals of function
 /* function buildPlot() {
 
@@ -248,32 +307,3 @@ var granimInstance = new Granim({
 
 buildPlot(); */
 
-
-// =====================
-// Covid Map
-// =====================
-
-
-// =====================
-// Food Pantry Map
-// =====================
-
-// Create a leaflet map with Indianapolis at the center
-// set Lat and Longitude 39.76853 -86.15799
-// var indyMap = L.map('map', {
-//   center: [39.76853, -86.15799],
-//   zoom: 8
-// });
-
-// // Adding a tile layer (the background map image) to our map
-// // We use the addTo method to add objects to our map
-// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-//   tileSize: 512,
-//   maxZoom: 18,
-//   zoomOffset: -1,
-//   id: "mapbox/streets-v11",
-//   accessToken: API_KEY
-// }).addTo(indyMap);
-
- 

@@ -34,7 +34,7 @@ Base.prepare(engine, reflect=True)
 print(Base.classes.keys())
 # Save reference to the table (update this to new table names)
 Bus = Base.classes.bus_clean
-# Covid = Base.classes.covid_clean
+Covid = Base.classes.covid_clean
 Food = Base.classes.food_clean
 # Neighborhoods = Base.classes.neighborhoods_clean
 Unemploy = Base.classes.unemploy_clean
@@ -85,6 +85,19 @@ def unemploy():
 
     return jsonify(new_results)
 
+# create route that renders all the data brought in from postgres
+@app.route("/api/covid")
+def covid():
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+    
+    # Query all data in the table 
+    results = session.query(Covid.zipcode, Covid.shapearea, Covid.shapelen, Covid.patient_count, Covid.population, Covid.percentage).all()
+
+
+    new_results = [r._asdict() for r in results]
+    session.close()
+    return jsonify(new_results) 
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -93,16 +106,7 @@ if __name__ == "__main__":
 
 # /////////
 # routes like this didn't connect to data / need to be like above
-# create route that renders all the data brought in from postgres
-# @app.route("/api/covid")
-# def covid():
-#     # Create our session (link) from Python to the DB
-#     session = Session(engine)
 
-#     # Query all data in the table 
-#     results = session.query(Covid).all()
-#     session.close()
-#     return jsonify(results)
 
 # create route that renders all the data brought in from postgres
 # @app.route("/api/neighborhoods")
