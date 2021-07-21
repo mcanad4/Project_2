@@ -43,6 +43,7 @@ html {
 
 .teal{
   stroke: teal;
+  stroke-width: 5;
 }
 
 .darkblue{
@@ -51,6 +52,7 @@ html {
 
 .orange{
   stroke: orange;
+  stroke-width: 5;
 }
 
 #footer{

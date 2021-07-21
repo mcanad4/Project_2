@@ -35,7 +35,7 @@ function buildUnemplChart() {
             data.timeframe = data.timeframe;
         });
 
-        console.log(response);
+        console.log(claimsData);
 
 
         // Create the area for the plot and define the x and y maximums
@@ -195,18 +195,18 @@ var granimInstance = new Granim({
 // function buildbusPlot() {
 
     /* data route */
-  const url_2 = "/api/bus";
-  d3.json(url_2).then(function(busData) {
+  const url = "/api/bus";
+  d3.json(url).then(function(busData) {
 
     busData.forEach(function(data) {          
         data.objectid = +data.objectid;
-        data.description = +data.description;
+        // data.description = +data.description;
         data.identifier = +data.identifier;
         data.latitude = +data.latitude;
         data.longitude = +data.longitude;
     });
 
-    console.log(response);
+    console.log(busData);
 })
 
 
