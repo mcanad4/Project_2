@@ -4,16 +4,6 @@
 // Unemployment Claims Chart
 // =====================
 
-// For live deployment, wrap unemployment chart in a function
-// function buildClaimPlot() {
-
-//     /* data route */
-//     const url = "/api/unemploy";
-//     d3.json(url).then(function(response) {
-
-//     console.log(response);
-// }
-
 // Define dimensions and append to svg for unemployment chart
 var svgWidth = parseFloat(d3.select('.chart').style('width'));
 var svgHeight = .66*svgWidth;
@@ -32,13 +22,9 @@ var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);   
 
 // Read in the data for unemployment
-d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
-  
-    // Parse and format the data
-
-    //index,year,month,timeframe,month_code,week,continued_claims,
-    //cont_pct_change_same_wk_last_year,init_claims,
-    //init_pct_change_same_wk_last_year    
+//     /* data route */
+const url = "/api/unemploy";
+d3.json(url).then(function(claimsData) {
     
     claimsData.forEach(function(data) {          
         data.index = +data.index;
@@ -47,12 +33,10 @@ d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
         data.continued_claims = +data.continued_claims;
         data.init_claims = +data.init_claims;
         data.timeframe = data.timeframe;
-        // These result in NaN if use the unary + operator
-        // data.month = +data.month;
-        // data.month_code = +data.monthcode;
-        // data.cont_pct_change_same_wk_last_year = +data.cont_pct_change_same_wk_last_year; 
-        // data.init_pct_change_same_wk_last_year = +data.init_pct_change_same_wk_last_year;
     });
+
+    console.log(response);
+
 
     // Create the area for the plot and define the x and y maximums
     var width = svgWidth - margin.left - margin.right;
@@ -127,7 +111,6 @@ d3.csv("/assets/Clean/unemploy_clean.csv").then(function(claimsData) {
 
     // Print the data
     console.log(claimsData);
-    
 });
 
 // =====================================
@@ -210,13 +193,22 @@ var granimInstance = new Granim({
 
 
 //**********FROM PET PALS EXAMPLE */
-// function buildPlot() {
+// function buildbusPlot() {
 
 //     /* data route */
-//   const url = "/api/pals";
-//   d3.json(url).then(function(response) {
+  const url = "/api/bus";
+  d3.json(url).then(function(busData) {
 
-//     console.log(response);
+    busData.forEach(function(data) {          
+        data.objectid = +data.objectid;
+        data.description = +data.description;
+        data.identifier = +data.identifier;
+        data.latitude = +data.latitude;
+        data.longitude = +data.longitude;
+    });
+
+    console.log(response);
+
 
 //     const data = response;
 

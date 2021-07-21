@@ -52,10 +52,9 @@ def bus():
     session = Session(engine)
 
     # Query all data in the table 
-    results = session.query(Bus).all()
+    results = session.query(Bus.objectid, Bus.description, Bus.identifier, Bus.latitude,  Bus.longitude).all()
     session.close()
     return jsonify(results)
-
 
 
 # create route that renders all the data brought in from postgres
