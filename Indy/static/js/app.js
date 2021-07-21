@@ -137,8 +137,9 @@ function buildUnemplChart() {
             }
         var unique = timeframes.filter(uniqueValues);
         
-        // THIS LINE PUTS ALL THE OPTIONS INTO THE SAME SPOT OF THE DROPDOWN
-        // d3.select('select').append('option').text(unique);
+        // TRYING TO GET UNIQUE TO SHOW UP AS DROPDOWN CHOICES:
+        d3.select('select').append('selDataset').text(unique);
+        // d3.select('selDataset').append('option').text(unique);
         
         // Print the data
         console.log(claimsData);
@@ -155,18 +156,8 @@ buildUnemplChart();
 // =====================================
 function buildUnemplDropdown() {
 
-    // //     /* data route */
-    // const url = "/api/unemploy";
-    // d3.json(url).then(function((timeframe) { 
-    //     timeframe.forEach(point => {          
-    //         d3.select('select').append('option').text(point);
-    //     }
-    //     console.log(timeframe);
-    // });
+ // d3.select("select").append("option").text(timeframeData);
 }
-
-// d3.select("select").append("option").text(timeframeData);
-// })
 buildUnemplDropdown();
 
 // function renderData() {
