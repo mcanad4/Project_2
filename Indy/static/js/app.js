@@ -35,9 +35,6 @@ function buildUnemplChart() {
             data.timeframe = data.timeframe;
         });
 
-        console.log(claimsData);
-
-
         // Create the area for the plot and define the x and y maximums
         var width = svgWidth - margin.left - margin.right;
         var height = svgHeight - margin.top - margin.bottom;
@@ -49,6 +46,7 @@ function buildUnemplChart() {
         var initMax = d3.max(claimsData, d => d.init_claims);
 
         var yMax = 40000;
+        
         
         // Create the scales and line for continued claims
         var xLinearScaleCont = d3.scaleLinear()
@@ -102,7 +100,21 @@ function buildUnemplChart() {
         .style("font", "36px times")
         .attr("text.anchor", "middle")
         .text("Claims per Week");   
-    
+        
+   
+
+        // Add a legend
+        var legendKeys = ["Weekly Initial Claims", "Weekly Continued Claims"]
+
+        var lineLeg = svg.selectAll(".linelegend").data(legendKeys)
+            .enter().append("g")
+            .attr("class", "lineLegend")
+            .style("font-size", "12px");
+        
+        lineLeg.append("text").text(`${legendKeys}`);
+       
+      
+        // TOTAL CLAIMS (Init + Continued)
         // var totalLine = d3.line()    
         //     .x(d => xLinearScaleCont(d.index))
         //     .y(d => yLinearScaleCont(d.init_claims + d.continued_claims));
@@ -112,31 +124,56 @@ function buildUnemplChart() {
         //     .attr("d", totalLine(claimsData))
         //     .classed("line purple", true);
 
+        var timeframes = [];
+        claimsData.forEach(function(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                if (key === "timeframe") {
+                    timeframes.push(value);
+                }
+            });
+        })
+        function uniqueValues(value, index, self) {
+            return self.indexOf(value) === index;
+            }
+        var unique = timeframes.filter(uniqueValues);
+        
+        // THIS LINE PUTS ALL THE OPTIONS INTO THE SAME SPOT OF THE DROPDOWN
+        // d3.select('select').append('option').text(unique);
+        
         // Print the data
         console.log(claimsData);
-    });
+        })
 }
 
-buildUnemplChart();
+    
 
+
+buildUnemplChart();
 
 // =====================================
 // Unemployment - Initial Claims Gauge
 // =====================================
+function buildUnemplDropdown() {
 
-// Also wrap this in the function for the time series chart
-// d3.json(url).then(({timeframe}) => {
-//     timeframe.forEach(time => {
-//         d3.select("select").append("option").text(time);
-//     });
-//     renderData();
-// });
+    // //     /* data route */
+    // const url = "/api/unemploy";
+    // d3.json(url).then(function((timeframe) { 
+    //     timeframe.forEach(point => {          
+    //         d3.select('select').append('option').text(point);
+    //     }
+    //     console.log(timeframe);
+    // });
+}
+
+// d3.select("select").append("option").text(timeframeData);
+// })
+buildUnemplDropdown();
 
 // function renderData() {
 //     var sel = d3.select('select').node().value;
 //     console.log(`Timeframe Selection: ${sel}`);
-
 // }
+
 
 // function optionChanged() {
 //     renderData();
