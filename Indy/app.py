@@ -85,18 +85,14 @@ def unemploy():
 
     return jsonify(new_results)
 
-# Next four lines worked to bring in index and init_claims   
-    # Query all data in the table 
-    # results = session.query(Unemploy.index, Unemploy.init_claims).all()
-    # # session.close()
-    # return { index:value for index, value in results }
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
-# results = session.query(Unemploy.year, Unemploy.month, Unemploy.timeframe, Unemploy.month_code, Unemploy.week, Unemploy.continued_claims, Unemploy.init_claims).all()
-# session.close()
-# return { 'year':year, 'month':month, 'timeframe':timeframe, 'code':month_code, 'week':week, 'continued_claims':continued_claims, 'init_claims':init_claims for year, month, timeframe, month_code, week, continued_claims, init_claims in results }
-  
 
+# /////////
+# routes like this didn't connect to data / need to be like above
 # create route that renders all the data brought in from postgres
 # @app.route("/api/covid")
 # def covid():
@@ -105,17 +101,6 @@ def unemploy():
 
 #     # Query all data in the table 
 #     results = session.query(Covid).all()
-#     session.close()
-#     return jsonify(results)
-
-# create route that renders all the data brought in from postgres
-# @app.route("/api/food")
-# def food():
-#     # Create our session (link) from Python to the DB
-#     session = Session(engine)
-
-#     # Query all data in the table 
-#     results = session.query(Food).all()
 #     session.close()
 #     return jsonify(results)
 
@@ -141,5 +126,3 @@ def unemploy():
 #     session.close()
 #     return jsonify(results)
 
-if __name__ == "__main__":
-    app.run(debug=True)
