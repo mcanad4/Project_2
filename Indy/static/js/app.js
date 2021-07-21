@@ -195,9 +195,9 @@ var granimInstance = new Granim({
 //**********FROM PET PALS EXAMPLE */
 // function buildbusPlot() {
 
-//     /* data route */
-  const url = "/api/bus";
-  d3.json(url).then(function(busData) {
+    /* data route */
+  const url_2 = "/api/bus";
+  d3.json(url_2).then(function(busData) {
 
     busData.forEach(function(data) {          
         data.objectid = +data.objectid;
@@ -208,7 +208,7 @@ var granimInstance = new Granim({
     });
 
     console.log(response);
-
+})
 
 //     const data = response;
 
@@ -266,4 +266,4 @@ var granimInstance = new Granim({
 //   accessToken: API_KEY
 // }).addTo(indyMap);
 
-
+ 

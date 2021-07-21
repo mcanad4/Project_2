@@ -17,8 +17,8 @@
 
 
   <!-- Link for css (swap out to the url link when deployment ready to be live)  -->  
-  <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   -->
+  <!-- <link rel="stylesheet" type="text/css" href="../static/css/style.css"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">  
   
  
   <!-- If need a d3Style.css
@@ -144,16 +144,16 @@
   <script src="{{ url_for('static', filename='js/config.js') }}"></script> -->
   
   <!-- Bring in the file for granim.js -->
-  <script type="text/javascript" src="../static/js/granim.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/granim.js"></script> -->
   
   <!-- Granim with live deployment -->
-  <!-- <script src="{{ url_for('static', filename='js/granim.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/granim.js') }}"></script>
   
   <!-- JS -->
-  <script type="text/javascript" src="../static/js/app.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
   
   <!-- JS, with live deployment -->
- <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 
   <!-- JavaScript Bundle with Popper -->
