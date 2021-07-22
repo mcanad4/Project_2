@@ -34,28 +34,66 @@
 
 <body style="background-color:darkblue; padding-top:20px; padding-left:10px; padding-right:10px">
 
+<!-- The container for map and covid filter-->
+<div class="container-fluid p-4">
 
-  <!-- The container for screen header and maps-->
-  <div class="container-fluid p-4">
 
+  <div class="row bg-white p-4 ms-2 me-2">
+    <h1>Visualizations Title</h1>
+    <div class="col-md-4 pt-md-4 pt-sm-4">
+      <h3> Testing Map 1</h3> <!-- can add class="text-info fw-bold" following first h3-->
+      <div id="map">
 
-    <div class="row bg-white p-4 ms-2 me-2">
-      <h1>Visualizations Title</h1>
-      <div class="col-md-6 pt-md-4 pt-sm-4">
-        <h3> Testing Map 1</h3> <!-- can add class="text-info fw-bold" following first h3-->
-        <div id="map">
-
-        </div>
       </div>
-
-      <div class="col-md-6 pt-md-8 pt-sm-4">
-        <h3>Testing Map 2 Location</h3>
-        <div id="map2">
-
-        </div>
-      </div>
-
     </div>
+
+    <div class="wrapper">
+      <div class="row col-6 bg-white ms-2 me-2"></div>
+          <h1>COVID-19 Cases in Marion County</h1>
+      </div>
+      <div class="container">
+        <div class="row mt-20 bg-white p-4 ms-2 me-2">
+      <div class="col-md-2">
+        <aside class="filters">
+          <div class="panel panel-default">
+            <div class="panel-heading">Filter Search
+              <br>Enter a Marion County Zip</div>
+            <div class="panel-body">
+              <form>
+                <div class="form-group">
+                  <ul class="list-group" id="filters">
+                    <li class="filter list-group-item">
+                      <label for="date">Enter a Zip</label>
+                      <input class="form-control" id="location" type="text" placeholder="46204">
+                    </li>
+                  </ul>
+                </div>
+                <button id="filter-btn" type="button" class="btn btn-secondary">Filter Table</button>
+              </form>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <div class="col-md-9">
+        <div id="table-area justify-content-evenly" class="">
+          <table id="covid-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th class="table-head">Zip Code</th>
+                <th class="table-head">Patient Count</th>
+                <th class="table-head">Percentage of Residents</th>
+                <th class="table-head">Total Population</th>                           
+              </tr>
+            </thead>
+            <tbody id='covid-tbody'>
+                
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> 
+  </div>  
+
 
 
     <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
@@ -130,54 +168,21 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="wrapper">
-    <div class="row col-12 bg-white ms-2 me-2"></div>
-       <h1>COVID-19 Cases in Marion County</h1>
-    </div>
-    <div class="container">
-      <div class="row mt-20 bg-white p-4 ms-2 me-2">
-    <div class="col-md-3">
-      <aside class="filters">
-        <div class="panel panel-default">
-          <div class="panel-heading">Filter Search
-            <br>Enter a Marion County Zip</div>
-          <div class="panel-body">
-            <form>
-              <div class="form-group">
-                <ul class="list-group" id="filters">
-                  <li class="filter list-group-item">
-                    <label for="date">Enter a Zip</label>
-                    <input class="form-control" id="location" type="text" placeholder="46204">
-                  </li>
-                </ul>
-              </div>
-              <button id="filter-btn" type="button" class="btn btn-secondary">Filter Table</button>
-            </form>
-          </div>
-        </div>
-      </aside>
-    </div>
-    <div class="col-md-9">
-      <div id="table-area justify-content-evenly" class="">
-        <table id="covid-table" class="table table-striped">
-          <thead>
-            <tr>
-              <th class="table-head">Zip Code</th>
-              <th class="table-head">Patient Count</th>
-              <th class="table-head">Percentage of Residents</th>
-              <th class="table-head">Total Population</th>                           
-            </tr>
-          </thead>
-          <tbody id='covid-tbody'>
-              
-          </tbody>
-        </table>
+</div>  
+  <div class="col-md-6 pt-md-8 pt-sm-4">
+      <h3>Testing Map 2 Location</h3>
+      <div id="map2">
+
       </div>
-    </div>
   </div>
 </div>
-</div>
+  
+
+    
+
+
     <!-- Footer
     <div class="row ms-4 me-4">
       <div class="col-md-9">
@@ -218,7 +223,7 @@
     <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
 
     <!-- Leaflet plugin extra markers -->
-    <script src="{{ url_for('static', filename='leaflet.extra-markers.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='css/leaflet.extra-markers.min.js') }}"></script>
 
 
     <!-- JavaScript Bundle with Popper -->
