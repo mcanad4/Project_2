@@ -8,8 +8,8 @@ displayChart();
 
 function displayChart() {
     
-var svgWidth = parseFloat(d3.select('.chart').style('width')) *.90;
-console.log('test: ',svgWidth);
+var svgWidth = parseFloat(d3.select('.chart').style('width')) *.95;
+// console.log('test: ',svgWidth);
 var svgHeight = .55*svgWidth;
 var svg = d3.select('.chart')
     .append('svg')
@@ -62,18 +62,25 @@ function buildUnemplChart() {
         var xLinearScaleCont = d3.scaleLinear()
           .domain(d3.extent(claimsData, d => d.index))
           .range([0, width]);
+        console.log(claimsData);
+       
+        var x = d3.scalePoint()
+            .domain([" ","Apr-2018", "Jul-2018", "Oct-2018", "Jan-2019", "Apr-2019", "Jul-2019", "Oct-2019", 
+            "Jan-2020", "Apr-2020", "Jul-2020", "Oct-2020", "Jan-2021", "Apr-2021", "Jul-2021"])
+            .range([0, width]);
 
         var yLinearScaleCont = d3.scaleLinear().range([height, 0]);
         
         xLinearScaleCont.domain([0, xMax + 5]);
         yLinearScaleCont.domain([0, yMax + 20]);
 
-        var bottomAxis = d3.axisBottom(xLinearScaleCont);
+        // var bottomAxis = d3.axisBottom(xLinearScaleCont);
+        var bottomAxis = d3.axisBottom(x);
         var leftAxis = d3.axisLeft(yLinearScaleCont);
     
         chartGroup.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .style("font", "24px times")
+            .style("font", "22px times")
             .call(bottomAxis);
 
         chartGroup.append("g").call(leftAxis)
