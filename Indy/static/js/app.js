@@ -38,9 +38,11 @@ function buildUnemplChart() {
         });
 
         // May be able to slice out certain time frames in the data using this type of code
-        test = claimsData.map(obj=>obj.index).slice(52)
-        console.log(test)
+        // test = claimsData.map(obj=>obj.index).slice(52)
+        // console.log(test)
         // Create the area for the plot and define the x and y maximums
+        
+        
         var width = svgWidth - margin.left - margin.right;
         var height = svgHeight - margin.top - margin.bottom;
         
@@ -447,8 +449,24 @@ var myMap = L.map("map", {
 // =====================
 // Covid Map
 // =====================
+function buildCovid() {
 
-
+  //     /* data route */
+  const url = "/api/covid";
+  d3.json(url).then(function(claimsData) {
+      
+    claimsData.forEach(function(data) {          
+        data.zip = parseInt(data.zip);
+        data.shapearea = +data.shapearea;
+        data.len = +data.shapelen;
+        data.patient_count = +data.patient_count;
+        data.population = +data.population;
+        data.percentage = +data.percentage;
+        
+    });
+    console.log(claimsData);
+  })
+}; 
 
 
 //***===========
