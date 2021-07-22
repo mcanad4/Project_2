@@ -1,13 +1,3 @@
-/**************************
-  Identify Filter Button and add event listener
-**************************/
-
-// Get a reference to the button that can be clicked to filter for a date
-var filterButton = d3.select("#filter-btn");
-
-// Create the event handlers, for click of button and on enter in the input field
-filterButton.on("click", handlClick);
-
 // =====================
 // Unemployment Claims Chart
 // =====================
@@ -247,35 +237,48 @@ var granimInstance = new Granim({
 // Covid Map
 // =====================
 function buildCovid(zip_code) {
+  console.log('in buildCovid');
+
     
   // Get a reference to the table body
   var tbody = d3.select('#covid-tbody');
-  
+  console.log(tbody);
   // Clear out the table displayed each time filter function is used
   tbody.html('');
   // Get a reference to the form (or input element) on the page 
   // var form = d3.select(".filters"); //also worked
-  // var form = d3.select("form");
+  var form = d3.select("form");
 
   /* data route */
   const url = "/api/covid";
 
   d3.json(url).then(function(covidData) {
     
+    console.log(covidData); 
+    console.log(zip_code);
+
     var filteredData = covidData.filter(obj=>obj['zipcode'] == zip_code);
+    console.log(filteredData);
 
     filteredData.forEach(row => {
+
+      console.log(row);
 
       zipcode = row['zipcode'];
       patient_count = row['patient_count'];
       percentage = row['percentage'];
       population = row['population'];
 
+      console.log(zipcode, patient_count, percentage, population);
+
       var tr = tbody.append('tr');
       tr.append('td').text(zipcode);
       tr.append('td').text(patient_count);
       tr.append('td').text(percentage);
       tr.append('td').text(population);
+
+      console.log(tbody);
+      console.log(tr);
 
       /* 
              <th class="table-head">Zip Code</th>
@@ -318,12 +321,24 @@ function buildCovid(zip_code) {
 // Establish a function to filter by datetime 
 function handlClick(){
 
+  console.log('in handleClick');
+
   // d3.event.preventDefault()
   var zip_code = d3.select('#location').property("value");
 
-  buildCovid(zip_code);  
+  buildCovid(zip_code);
+
+  
 
 };
+
+// Get a reference to the button that can be clicked to filter for a date
+var filterButton = d3.select("#filter-btn");
+
+// Create the event handlers, for click of button and on enter in the input field
+filterButton.on("click", handlClick);
+//form.on("submit", handlClick);
+
 
 
 // =====================

@@ -131,6 +131,67 @@
       </div>
     </div>
 
+    <div class="wrapper">
+    <div class="row col-12 bg-white ms-2 me-2"></div>
+       <h1>COVID-19 Cases in Marion County</h1>
+    </div>
+    <div class="container">
+      <div class="row mt-20 bg-white p-4 ms-2 me-2">
+    <div class="col-md-3">
+      <aside class="filters">
+        <div class="panel panel-default">
+          <div class="panel-heading">Filter Search
+            <br>Enter a Marion County Zip</div>
+          <div class="panel-body">
+            <form>
+              <div class="form-group">
+                <ul class="list-group" id="filters">
+                  <li class="filter list-group-item">
+                    <label for="date">Enter a Zip</label>
+                    <input class="form-control" id="location" type="text" placeholder="46204">
+                  </li>
+                </ul>
+              </div>
+              <button id="filter-btn" type="button" class="btn btn-secondary">Filter Table</button>
+            </form>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="col-md-9">
+      <div id="table-area justify-content-evenly" class="">
+        <table id="covid-table" class="table table-striped">
+          <thead>
+            <tr>
+              <th class="table-head">Zip Code</th>
+              <th class="table-head">Patient Count</th>
+              <th class="table-head">Percentage of Residents</th>
+              <th class="table-head">Total Population</th>                           
+            </tr>
+          </thead>
+          <tbody id='covid-tbody'>
+              
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    <!-- Footer
+    <div class="row ms-4 me-4">
+      <div class="col-md-9">
+        <canvas id="canvas-basic">
+
+        </canvas>
+      </div>
+      <div class="col-md-3 p-2">
+        <div id="footer">
+          <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
+        </div>
+      </div>
+    </div>
+     -->
 
 
     <!-- D3 -->
@@ -166,7 +227,7 @@
       crossorigin="anonymous"></script>
 
     <!-- JS, with live deployment -->
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 
 
 </body>
