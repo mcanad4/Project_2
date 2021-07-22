@@ -241,23 +241,6 @@ var granimInstance = new Granim({
     // console.log(typeof sel);
 
 
-// Create a leaflet map with Indianapolis at the center
-// set Lat and Longitude 39.76853 -86.15799
-// var indyMap = L.map('map', {
-//   center: [39.76853, -86.15799],
-//   zoom: 8
-// });
-
-// // Adding a tile layer (the background map image) to our map
-// // We use the addTo method to add objects to our map
-// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-//   tileSize: 512,
-//   maxZoom: 18,
-//   zoomOffset: -1,
-//   id: "mapbox/streets-v11",
-//   accessToken: API_KEY
-// }).addTo(indyMap);
 
 
 
@@ -309,25 +292,65 @@ function buildFood() {
 buildFood();
 
 
+//STRAT OF MAP COPY IN//
+
+function createMap(indyBus) {
+
+  /* data route */
+  const url = "/api/bus";
+  d3.json(url).then(function(busData) {
+
+    busData.forEach(function(data) {          
+        data.objectid = +data.objectid;
+        // data.description = +data.description;
+        data.identifier = +data.identifier;
+        data.latitude = +data.latitude;
+        data.longitude = +data.longitude;
+    });
+
+    console.log(busData);
+})
 
 // Create a leaflet map with Indianapolis at the center
-// set Lat and Longitude 39.76853 -86.15799
-// var indyMap = L.map('map', {
-//   center: [39.76853, -86.15799],
-//   zoom: 8
-// });
+// Create a map object
+var myMap = L.map("map", {
+    center: [39.76853, -86.15799],
+    zoom: 11
+  });
+  
+  // Add a tile layer
+  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/streets-v11",
+    accessToken: API_KEY
+  }).addTo(myMap);
+  
+  // An array containing each city's name, location, and population
+  var overelayMaps = {
+    "IndyGo Bus Stops": indyBus
+  };
 
-// // Adding a tile layer (the background map image) to our map
-// // We use the addTo method to add objects to our map
-// L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-//   tileSize: 512,
-//   maxZoom: 18,
-//   zoomOffset: -1,
-//   id: "mapbox/streets-v11",
-//   accessToken: API_KEY
-// }).addTo(indyMap);
+  // Create the map object with options
+  var map = L.map("map", {
+        center: [39.76853, -86.15799],
+        zoom: 11,
+        layers: [lightmap, indyBus]
+        });
 
+        // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
+        L.control.layers(baseMaps, overlayMaps, {
+        collapsed: false
+        }).addTo(map);
+
+        function createMarkers(response) {
+
+            // Pull the "stations" property off of response.data
+            var buses = busData.;
+  }
+//END OF COPY IN//
 
 // =====================
 // Covid Map
