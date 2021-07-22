@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="col-2 col-sm-1 col-xs-3 bg-white">
+      <div class="col-2 col-sm-2 col-xs-2 bg-white">
         <h5><b>Timeframe:</b></h5>
         
         <select id="selDataset" onchange="optionChanged(this.value)"></select>
@@ -156,6 +156,8 @@
     <!-- JS -->
     <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
 
+    <!-- Leaflet plugin extra markers -->
+    <script src="{{ url_for('static', filename='leaflet.extra-markers.min.js') }}"></script>
 
 
     <!-- JavaScript Bundle with Popper -->

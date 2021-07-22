@@ -52,7 +52,8 @@ function buildUnemplChart() {
 
         var yMax = 40000;
         
-        
+
+     
         // Create the scales and line for continued claims
         var xLinearScaleCont = d3.scaleLinear()
           .domain(d3.extent(claimsData, d => d.index))
@@ -79,7 +80,7 @@ function buildUnemplChart() {
             .call(bottomAxis);
 
         chartGroup.append("g").call(leftAxis)
-            .style("font", "24px times");
+            .style("font", "20px times");
         
         var contLine = d3.line()    
             .x(d => xLinearScaleCont(d.index))
@@ -113,7 +114,8 @@ function buildUnemplChart() {
         .style("font-family", "Segoe UI")
         .attr("text.anchor", "middle")
         .text("Claims per Week")
-        .style("fill", "#0575E6");   
+        .style("font-weight", "bold")
+        .style("fill", "darkblue");   
         
         // Create a rectangle and legend to sit in it
         legendGroup = svg.append("g")
@@ -143,8 +145,7 @@ function buildUnemplChart() {
             .style("font-weight", "bold");
         
        
-        
-       
+              
       
         // TOTAL CLAIMS (Init + Continued)
         // var totalLine = d3.line()    
@@ -255,57 +256,124 @@ buildFood();
 
 
 // =====================
-// Bus Map
+// Bus Map with Food Pantries
 // =====================
 
 
 
 
-// function createMap(indyBus) {
+function createMap(indyBus) {
 
-//     /* data route */
-//     const url = "/api/bus";
-//     d3.json(url).then(function(busData) {
+    /* data route */
+    const url = "/api/bus";
+    d3.json(url).then(function(busData) {
 
-//         busData.forEach(function(data) {          
-//             data.objectid = +data.objectid;
-//             // data.description = +data.description;
-//             data.identifier = +data.identifier;
-//             data.latitude = +data.latitude;
-//             data.longitude = +data.longitude;
-//         });
+        busData.forEach(function(data) {          
+            data.objectid = +data.objectid;
+            // data.description = +data.description;
+            data.identifier = +data.identifier;
+            data.latitude = +data.latitude;
+            data.longitude = +data.longitude;
+        });
 
-//     console.log(busData);
+    console.log(busData);
 
-// })
-// Create a leaflet map with Indianapolis at the center
-    // Create a map object
-//   var map = L.map("map", {
-//     center: [39.76853, -86.15799],
-//     zoom: 11,
-//     layers: [lightmap, indyBus]
-//     });
+    })
+}
+    // //Create a leaflet map with Indianapolis at the center
+        
+    // // Create the tile layer that will be the background of our map
+    // var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    // attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+    // maxZoom: 18,
+    // id: "light-v10",
+    // accessToken: API_KEY
+    // });
 
-//     // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
-//     L.control.layers(baseMaps, overlayMaps, {
-//     collapsed: false
-//     }).addTo(map);
+    // // Initialize the layerGroups needed
+    // // Create a map object
+    // var layers = {
+    //     Bus_Stops: new L.LayerGroup(),
+    //     Food_Pantries: new L.LayerGroup(),
+    // };
 
-// })   
+    // var map = L.map("map2", {
+    // center: [39.76853, -86.15799],
+    // zoom: 11,
+    // layers: [
+    //     layers.Bus_Stops,
+    //     layers.FoodPantries
+    // ] 
+        
+    // });
+
+    // lightmap.addTo(map);
+
+    // // Create an overlays object to add to the layer control
+    // var overlays = {
+    // "Bus Stops": layers.Bus_Stops,
+    // "Food Pantries": layers.Food_Pantries,
+    // };
+
+
+    // // Create a control for our layers, add our overlay layers to it
+    // L.control.layers(null, overlays).addTo(map);
+
+    // // Create a legend to display information about our map
+    // var info = L.control({
+    //     position: "bottomright"
+    // });
+
     
+    // // When the layer control is added, insert a div with the class of "legend"
+    // info.onAdd = function() {
+    //     var div = L.DomUtil.create("div", "legend");
+    //     return div;
+    // };
+
+    // // Add the info legend to the map
+    // info.addTo(map);
+
+    // var icons = {
+    //     COMING_SOON: L.ExtraMarkers.icon({
+    //       icon: "bus-outline",
+    //       iconColor: "white",
+    //       markerColor: "blue",
+    //       shape: "star"
+    //     }),
+    //     EMPTY: L.ExtraMarkers.icon({
+    //       icon: "heart-outline",
+    //       iconColor: "white",
+    //       markerColor: "orange",
+    //       shape: "circle"
+    //     })
+    // };
+ 
+
+    
+// createMap();
+
+// Language from working towards attaching to bus data (like pulled in from an activity
+//     var overlayMaps = {
+//         "IndyGo Bus Stops": indyBus
+//     };
+
+//     function createMarkers(response) {
+
+//     // Pull the "stations" property off of response.data
+//     var buses = busData.;
+//     }
+
+
    
-//   var overlayMaps = {
-//     "IndyGo Bus Stops": indyBus
-//   };
-
-// function createMarkers(response) {
-
-        //     // Pull the "stations" property off of response.data
-        //     var buses = busData.;
-
-
+  
     
 
+
+// ========================
+// View of map with Indianapolis as center, as a placeholder
+// ========================
+function createCity() {
 //START OF MAP COPY IN//
  // Create a map object
 var myMap = L.map("map", {
@@ -350,7 +418,7 @@ var myMap = L.map("map", {
       population: 3971883
     },
     {
-      name: "Indiana",
+      name: "Indianapolis",
       location: [39.76853, -86.15799],
       population: 6700000
     }
@@ -367,10 +435,11 @@ var myMap = L.map("map", {
       radius: markerSize(cities[i].population)
     }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
   }
-  
+};
   //END OF COPY IN//
 
-//createMap(indyBus);
+
+  createCity();
 
 
 
