@@ -2,25 +2,24 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-        
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap Link, Leaflet and CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
-      rel="stylesheet" 
-      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
-      crossorigin="anonymous">
-  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" />
 
 
-  <!-- Link for css (swap out to the url link when deployment ready to be live)  -->  
+  <!-- Link for css (swap out to the url link when deployment ready to be live)  -->
   <!-- <link rel="stylesheet" type="text/css" href="../static/css/style.css"> -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">  
-  
- 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
   <!-- If need a d3Style.css
      <link rel="stylesheet" href="assets/css/d3Style.css"> 
     
@@ -35,71 +34,71 @@
 
 <body style="background-color:darkblue; padding-top:20px; padding-left:10px; padding-right:10px">
 
-  
+
   <!-- The container for screen header and maps-->
   <div class="container-fluid p-4">
-    
-        
+
+
     <div class="row bg-white p-4 ms-2 me-2">
       <h1>Visualizations Title</h1>
-      <div class= "col-md-6 pt-md-4 pt-sm-4">
+      <div class="col-md-6 pt-md-4 pt-sm-4">
         <h3> Testing Map 1</h3> <!-- can add class="text-info fw-bold" following first h3-->
         <div id="map">
-        
+
         </div>
       </div>
-      
-      <div class= "col-md-6 pt-md-8 pt-sm-4">
+
+      <div class="col-md-6 pt-md-8 pt-sm-4">
         <h3>Testing Map 2 Location</h3>
         <div id="map2">
-    
+
         </div>
       </div>
-    
+
     </div>
-    
-    
+
+
     <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
       <h3>Marion County Unemployment Claims</h3>
-      
-        
-      <div class= "col-md-9 pt-md-4 pt-sm-4 pb-4">
-        <div class="chart"> 
+
+
+      <div class="col-md-9 pt-md-4 pt-sm-4 pb-4">
+        <div class="chart">
           <!-- <div class="lineLegend">
           </div>    -->
         </div>
-      </div>  
-      
-      <div class= "col-md-3 bg-white">
-        <h5><b>Timeframe:</b></h5>
-        <select id="selDataset" onchange="optionChanged(this.value)"></select> 
-          
-          <div id="gaugeInit">          
-          
-          </div>
-          
-          <div id="gaugeCont">
+      </div>
 
-          </div>
+      <div class="col-md-3 bg-white">
+        <h5><b>Timeframe:</b></h5>
+        <select id="selDataset" onchange="optionChanged(this.value)"></select>
+
+        <div id="gaugeInit">
+
+        </div>
+
+        <div id="gaugeCont">
+
+        </div>
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text </p>
-              <div id="gaugeInit">          
-            
-              </div>
+            <div id="gaugeInit">
+
+            </div>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
             <br><br><br><br>
           </div>
-          
+
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text </p>
-              
-                <div id="gaugeCont">
 
-                </div>
+              <div id="gaugeCont">
+
+              </div>
               <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
               <br><br><br><br>
             </div>
@@ -116,56 +115,57 @@
         </div>
       </div>
     </div>
-     
+
     <!-- Footer-->
     <div class="row ms-4 me-4">
-      <div class= "col-md-9">
+      <div class="col-md-9">
         <canvas id="canvas-basic">
-          
-        </canvas> 
+
+        </canvas>
       </div>
-      <div class= "col-md-3 p-2"> 
-        <div id="footer"><p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
+      <div class="col-md-3 p-2">
+        <div id="footer">
+          <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
         </div>
       </div>
-    </div>       
-  
-      
- 
-  <!-- D3 -->
-  <script src="https://d3js.org/d3.v5.min.js"></script>
+    </div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
-  
-  <!-- API key  (if needed)-->
-  <!-- <script type="text/javascript" src="../static/js/config.js"></script> -->
 
-  <!-- API key if needed, with live deployment -->
-  <script src="{{ url_for('static', filename='js/config.js') }}"></script>
-  
-  <!-- Bring in the file for granim.js -->
-  <!-- <script type="text/javascript" src="../static/js/granim.js"></script> -->
-  
-  <!-- Granim with live deployment -->
-  <script src="{{ url_for('static', filename='js/granim.js') }}"></script>
-  
-  <!-- JS -->
-  <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
-  
- 
 
-  <!-- JavaScript Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
- 
-  <!-- JS, with live deployment -->
- <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""></script>
+
+    <!-- API key  (if needed)-->
+    <!-- <script type="text/javascript" src="../static/js/config.js"></script> -->
+
+    <!-- API key if needed, with live deployment -->
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+
+    <!-- Bring in the file for granim.js -->
+    <!-- <script type="text/javascript" src="../static/js/granim.js"></script> -->
+
+    <!-- Granim with live deployment -->
+    <script src="{{ url_for('static', filename='js/granim.js') }}"></script>
+
+    <!-- JS -->
+    <!-- <script type="text/javascript" src="../static/js/app.js"></script> -->
+
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"></script>
+
+    <!-- JS, with live deployment -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 
 </body>
 
 </html>
-

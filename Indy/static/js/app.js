@@ -3,8 +3,14 @@
 // =====================
 
 // Define dimensions and append to svg for unemployment chart
-var svgWidth = parseFloat(d3.select('.chart').style('width'));
-var svgHeight = .66*svgWidth;
+displayChart();
+//d3.select(window).on('resize', ()=> displayChart);
+
+function displayChart() {
+    
+var svgWidth = parseFloat(d3.select('.chart').style('width')) *.90;
+console.log('test: ',svgWidth);
+var svgHeight = .55*svgWidth;
 var svg = d3.select('.chart')
     .append('svg')
     .style('width',svgWidth)
@@ -33,7 +39,11 @@ function buildUnemplChart() {
             data.continued_claims = +data.continued_claims;
             data.init_claims = +data.init_claims;
             data.timeframe = data.timeframe;
+            
         });
+
+        // May be able to slice out certain time frames in the data using this type of code
+        test = claimsData.map(obj=>obj.index).slice(52)
 
         // Create the area for the plot and define the x and y maximums
         var width = svgWidth - margin.left - margin.right;
@@ -93,46 +103,42 @@ function buildUnemplChart() {
             .classed("line orange", true);
 
         var labelsGroup = chartGroup.append("g")
-            .attr("transform", `translate(${-120}, ${height / 2})`);
+            .attr("transform", `translate(${-120}, ${50 + height / 2})`);
         
         labelsGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .style("font", "36px times")
+        .style("font", "30px times")
+        .style("font-family", "Segoe UI")
         .attr("text.anchor", "middle")
-        .text("Claims per Week");   
+        .text("Claims per Week")
+        .style("fill", "#0575E6");   
         
-   
-        // Add a legend
-        // claimsLegend = d3.select(".chart").selectAll(".legend")
-        //     .enter()
-        //     .append("svg")
-        //     .attr("class", "legend");
-        
-        //     claimsLegend.append("rect")
-        //     .attr("x", 250)
-        //     .attr("y", 30)
-        //     .attr("rx", "8px")
-        //     .attr("width", 170)
-        //     .attr("height", 140)
-        //     .attr("fill", "#ffe9c0");
-
-        
-        
-        claimsLegend = svg.append("rect") 
-            .attr("x", 250)
-            .attr("y", 30)
+        // Create a rectangle and legend to sit in it
+        legendGroup = svg.append("g")
+        claimsLegend = legendGroup.append("rect") 
+            .attr("x", 280)
+            .attr("y", 90)
             .attr("rx", "8px")
-            .attr("width", 170)
+            .attr("width", 420)
             .attr("height", 140)
             .attr("fill", "#ffe9c0")
             .attr("opacity", "0.8");
 
-        claimsLegend
-            .append("text")
-            .attr("x", 260)
-            .attr("y", 35)
+        legendGroup.append("text")
+            .attr("x", 310)
+            .attr("y", 150)
             .style("fill", "orange")
-            .text("Weekly Initial Claims");
+            .text("Weekly Initial Claims")
+            .style("font-size", "30px")
+            .style("font-weight", "bold");
+
+        legendGroup.append("text")
+            .attr("x", 310)
+            .attr("y", 190)
+            .style("fill", "teal")
+            .text("Weekly Continued Claims")
+            .style("font-size", "30px")
+            .style("font-weight", "bold");
         
         //     <svg class="svg-rect" width="50" height="40">
         //     <rect x="0" y="0" rx="3" ry="3" width="50" height="40" fill="#e7e7e7"></rect>
@@ -183,9 +189,6 @@ function buildUnemplChart() {
         console.log(claimsData);
         })
 }
-
-    
-
 
 buildUnemplChart();
 
@@ -345,10 +348,10 @@ var myMap = L.map("map", {
         collapsed: false
         }).addTo(map);
 
-        function createMarkers(response) {
+        // function createMarkers(response) {
 
-            // Pull the "stations" property off of response.data
-            var buses = busData.;
+        //     // Pull the "stations" property off of response.data
+        //     var buses = busData.;
   }
 //END OF COPY IN//
 
@@ -395,3 +398,4 @@ var myMap = L.map("map", {
 
 buildPlot(); */
 
+}
