@@ -3,11 +3,6 @@
 // =====================
 
 // Define dimensions and append to svg for unemployment chart
-displayChart();
-//d3.select(window).on('resize', ()=> displayChart);
-
-function displayChart() {
-    
 var svgWidth = parseFloat(d3.select('.chart').style('width')) *.95;
 // console.log('test: ',svgWidth);
 var svgHeight = .55*svgWidth;
@@ -17,7 +12,7 @@ var svg = d3.select('.chart')
     .style('height',svgHeight);
 var margin = {
     top: 10,
-    right: 80,
+    right: 40,
     bottom: 60,
     left: 160
 }
@@ -44,7 +39,7 @@ function buildUnemplChart() {
 
         // May be able to slice out certain time frames in the data using this type of code
         test = claimsData.map(obj=>obj.index).slice(52)
-
+        console.log(test)
         // Create the area for the plot and define the x and y maximums
         var width = svgWidth - margin.left - margin.right;
         var height = svgHeight - margin.top - margin.bottom;
@@ -80,7 +75,7 @@ function buildUnemplChart() {
     
         chartGroup.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .style("font", "22px times")
+            .style("font", "14px times")
             .call(bottomAxis);
 
         chartGroup.append("g").call(leftAxis)
@@ -114,7 +109,7 @@ function buildUnemplChart() {
         
         labelsGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .style("font", "30px times")
+        .style("font", "20px times")
         .style("font-family", "Segoe UI")
         .attr("text.anchor", "middle")
         .text("Claims per Week")
@@ -123,46 +118,32 @@ function buildUnemplChart() {
         // Create a rectangle and legend to sit in it
         legendGroup = svg.append("g")
         claimsLegend = legendGroup.append("rect") 
-            .attr("x", 280)
-            .attr("y", 90)
+            .attr("x", 240)
+            .attr("y", 70)
             .attr("rx", "8px")
-            .attr("width", 420)
-            .attr("height", 140)
+            .attr("width", 280)
+            .attr("height", 80)
             .attr("fill", "#ffe9c0")
             .attr("opacity", "0.8");
 
         legendGroup.append("text")
-            .attr("x", 310)
-            .attr("y", 150)
+            .attr("x", 250)
+            .attr("y", 100)
             .style("fill", "orange")
             .text("Weekly Initial Claims")
-            .style("font-size", "30px")
+            .style("font-size", "20px")
             .style("font-weight", "bold");
 
         legendGroup.append("text")
-            .attr("x", 310)
-            .attr("y", 190)
+            .attr("x", 250)
+            .attr("y", 130)
             .style("fill", "teal")
             .text("Weekly Continued Claims")
-            .style("font-size", "30px")
+            .style("font-size", "20px")
             .style("font-weight", "bold");
         
-        //     <svg class="svg-rect" width="50" height="40">
-        //     <rect x="0" y="0" rx="3" ry="3" width="50" height="40" fill="#e7e7e7"></rect>
-        //     <text x="50%" y="50%" text-anchor="middle" stroke="black" stroke-width="1px" dy=".3em">N/A</text>
-        // </svg>
+       
         
-        // var legendKeys = ["Weekly Initial Claims", "Weekly Continued Claims"]
-
-        // var lineLeg = svg.selectAll(".linelegend").data(legendKeys)
-        //     .enter()
-        //     .append("g")
-        //     .attr("class", "lineLegend")
-        //     .style("font-size", "12px")
-        //     .text("value", );
-            
-        
-        //lineLeg.append("text").text(`${legendKeys}`);
        
       
         // TOTAL CLAIMS (Init + Continued)
@@ -189,8 +170,8 @@ function buildUnemplChart() {
         var unique = timeframes.filter(uniqueValues);
         
         // TRYING TO GET UNIQUE TO SHOW UP AS DROPDOWN CHOICES:
-        d3.select('SelDataset').append('options').text(unique);
-        //d3.select('select')?
+        d3.select('select').append('options').text(unique);
+        //d3.select('select' or SelDatase)?
         
         // Print the data
         console.log(claimsData);
@@ -218,6 +199,15 @@ buildUnemplDropdown();
 //     renderData();
 // };
 
+// Define the function that will impact gauges
+// function renderData() {
+    // var seeMe = d3.select('select').node()
+    // console.log(seeMe)
+    
+    // Save the selected ID number to use for filtering 
+    // var sel = d3.select('select').node().value;
+    // console.log(`ID Number Selection: ${sel}`);
+    // console.log(typeof sel);
 
 // =====================================
 // JS Library Granim.js usage in footer
@@ -238,45 +228,6 @@ var granimInstance = new Granim({
     }
 });
 
-
-
-// Define the function that will impact gauges
-// function renderData() {
-    // var seeMe = d3.select('select').node()
-    // console.log(seeMe)
-    
-    // Save the selected ID number to use for filtering 
-    // var sel = d3.select('select').node().value;
-    // console.log(`ID Number Selection: ${sel}`);
-    // console.log(typeof sel);
-
-
-
-
-
-// =====================
-// Bus Map
-// =====================
-
-function buildBus() {
-
-    /* data route */
-  const url = "/api/bus";
-  d3.json(url).then(function(busData) {
-
-    busData.forEach(function(data) {          
-        data.objectid = +data.objectid;
-        // data.description = +data.description;
-        data.identifier = +data.identifier;
-        data.latitude = +data.latitude;
-        data.longitude = +data.longitude;
-    });
-
-    console.log(busData);
-})
-}
-
-buildBus();
 
 
 // =====================
@@ -302,33 +253,66 @@ function buildFood() {
 buildFood();
 
 
-//STRAT OF MAP COPY IN//
 
-function createMap(indyBus) {
+// =====================
+// Bus Map
+// =====================
 
-  /* data route */
-  const url = "/api/bus";
-  d3.json(url).then(function(busData) {
 
-    busData.forEach(function(data) {          
-        data.objectid = +data.objectid;
-        // data.description = +data.description;
-        data.identifier = +data.identifier;
-        data.latitude = +data.latitude;
-        data.longitude = +data.longitude;
-    });
 
-    console.log(busData);
-})
 
+// function createMap(indyBus) {
+
+//     /* data route */
+//     const url = "/api/bus";
+//     d3.json(url).then(function(busData) {
+
+//         busData.forEach(function(data) {          
+//             data.objectid = +data.objectid;
+//             // data.description = +data.description;
+//             data.identifier = +data.identifier;
+//             data.latitude = +data.latitude;
+//             data.longitude = +data.longitude;
+//         });
+
+//     console.log(busData);
+
+// })
 // Create a leaflet map with Indianapolis at the center
-// Create a map object
+    // Create a map object
+//   var map = L.map("map", {
+//     center: [39.76853, -86.15799],
+//     zoom: 11,
+//     layers: [lightmap, indyBus]
+//     });
+
+//     // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
+//     L.control.layers(baseMaps, overlayMaps, {
+//     collapsed: false
+//     }).addTo(map);
+
+// })   
+    
+   
+//   var overlayMaps = {
+//     "IndyGo Bus Stops": indyBus
+//   };
+
+// function createMarkers(response) {
+
+        //     // Pull the "stations" property off of response.data
+        //     var buses = busData.;
+
+
+    
+
+//START OF MAP COPY IN//
+ // Create a map object
 var myMap = L.map("map", {
     center: [39.76853, -86.15799],
     zoom: 11
   });
   
-  // Add a tile layer
   L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
@@ -338,33 +322,65 @@ var myMap = L.map("map", {
     accessToken: API_KEY
   }).addTo(myMap);
   
-  // An array containing each city's name, location, and population
-  var overelayMaps = {
-    "IndyGo Bus Stops": indyBus
-  };
-
-  // Create the map object with options
-  var map = L.map("map", {
-        center: [39.76853, -86.15799],
-        zoom: 11,
-        layers: [lightmap, indyBus]
-        });
-
-        // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
-        L.control.layers(baseMaps, overlayMaps, {
-        collapsed: false
-        }).addTo(map);
-
-        // function createMarkers(response) {
-
-        //     // Pull the "stations" property off of response.data
-        //     var buses = busData.;
+  // Define a markerSize function that will give each city a different radius based on its population
+  function markerSize(population) {
+    return Math.sqrt(population) / 40;
   }
-//END OF COPY IN//
+  
+  // Each city object contains the city's name, location and population
+  var cities = [
+    {
+      name: "New York",
+      location: [40.7128, -74.0059],
+      population: 8550405
+    },
+    {
+      name: "Chicago",
+      location: [41.8781, -87.6298],
+      population: 2720546
+    },
+    {
+      name: "Houston",
+      location: [29.7604, -95.3698],
+      population: 2296224
+    },
+    {
+      name: "Los Angeles",
+      location: [34.0522, -118.2437],
+      population: 3971883
+    },
+    {
+      name: "Indiana",
+      location: [39.76853, -86.15799],
+      population: 6700000
+    }
+  ];
+  
+  // Loop through the cities array and create one marker for each city object
+  for (var i = 0; i < cities.length; i++) {
+    L.circleMarker(cities[i].location, {
+      fillOpacity: 0.75,
+      color: "white",
+      fillColor: "lightblue",
+      // Setting our circle's radius equal to the output of our markerSize function
+      // This will make our marker's size proportionate to its population
+      radius: markerSize(cities[i].population)
+    }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
+  }
+  
+  //END OF COPY IN//
+
+//createMap(indyBus);
+
+
+
 
 // =====================
 // Covid Map
 // =====================
+
+
+
 
 //***===========
 // Example from pet pals of function
@@ -405,4 +421,4 @@ var myMap = L.map("map", {
 
 buildPlot(); */
 
-}
+
