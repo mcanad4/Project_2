@@ -24,7 +24,9 @@ CREATE TABLE covid_clean (
 	shapelen FLOAT,
 	patient_count FLOAT,
 	population FLOAT,
-	percentage FLOAT
+	percentage FLOAT,
+	lat FLOAT,
+	lng Float
 );
 
 Select *

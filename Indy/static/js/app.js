@@ -295,9 +295,32 @@ function handlClick(){
 
 };
 
+// =====================
+// Covid Case Data
+// =====================
+
+function buildCases() {
+
+  /* data route */
+const url = "/api/covid";
+d3.json(url).then(function(caseData) {
+
+  caseData.forEach(function(data) {          
+      data.zipcode = parseInt(data.zipcode);
+      data.patient_count = +data.patient_count;
+      data.population = +data.population;
+      data.percentage = +data.percentage;
+      data.lat = +data.lat;
+      data.lng = +data.lng;
+  });
+
+  console.log(caseData);
+})
+}
+buildCases();
 
 // =====================
-// Food Pantry Map
+// Food Pantry Data
 // =====================
 
 function buildFood() {
@@ -318,7 +341,7 @@ function buildFood() {
 buildFood();
 
 // =====================
-// Bus Map with Food Pantries
+// Bus Data
 // =====================
 
 function buildBus() {
@@ -342,7 +365,7 @@ buildBus();
 
 //*********  START of Resource Map  *************//
 
-function createMap() {
+function createMap2() {
   
   baseMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
@@ -413,5 +436,56 @@ function createMap() {
       marker.addTo(map);
     })
 });
+}
+createMap2();
+
+//*********  START of Covid Map  *************//
+
+function createMap() {
+  
+  baseMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/streets-v11",
+    accessToken: API_KEY
+  });
+
+  var map = L.map("map", {
+    center: [39.76853, -86.15799],
+    zoom: 11,
+    layers: [baseMap]
+  });
+
+  //make a call to the API endpoint for food
+  d3.json('/api/covid').then(data => {
+
+      //loop through each record from the endpoint
+      data.forEach(geo => {
+
+        //create variables based on the data from the endpoint
+        var latitude = geo['lat'];
+        var longitude = geo['lng'];
+        var coordinates = [latitude, longitude];
+        var zip = geo['zipcode'];
+        var population = geo['population'];
+        var patients = geo['patient_count'];        
+        var percent = geo['percent'];  
+
+        //create a marker for each record in the endpoint
+        var marker = L.circleMarker(coordinates, {
+            fillColor: 'blue',
+            color: 'blue',
+            radius: 5
+          });
+
+        //set up the pop up for the marker
+        marker.bindPopup(`${zip}<br>${population}<br>${patients}<br>${percent}`);
+
+        //add the marker to our map
+        marker.addTo(map);
+      })
+  });
 }
 createMap();
