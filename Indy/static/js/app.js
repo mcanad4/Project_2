@@ -329,7 +329,7 @@ function buildBus() {
 
         busData.forEach(function(data) {          
             data.objectid = +data.objectid;
-            // data.description = +data.description;
+            data.description = +data.description;
             data.identifier = +data.identifier;
             data.latitude = +data.latitude;
             data.longitude = +data.longitude;
@@ -340,91 +340,7 @@ function buildBus() {
 }
 buildBus();
 
-    // //Create a leaflet map with Indianapolis at the center
-  
-    // // Create the tile layer that will be the background of our map
-    // var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    // attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    // maxZoom: 18,
-    // id: "light-v10",
-    // accessToken: API_KEY
-    // });
-
-    // // Initialize the layerGroups needed
-    // // Create a map object
-    // var layers = {
-    //     Bus_Stops: new L.LayerGroup(),
-    //     Food_Pantries: new L.LayerGroup(),
-    // };
-
-    // var map = L.map("map2", {
-    // center: [39.76853, -86.15799],
-    // zoom: 11,
-    // layers: [
-    //     layers.Bus_Stops,
-    //     layers.FoodPantries
-    // ] 
-        
-    // });
-
-    // lightmap.addTo(map);
-
-    // // Create an overlays object to add to the layer control
-    // var overlays = {
-    // "Bus Stops": layers.Bus_Stops,
-    // "Food Pantries": layers.Food_Pantries,
-    // };
-
-
-    // // Create a control for our layers, add our overlay layers to it
-    // L.control.layers(null, overlays).addTo(map);
-
-    // // Create a legend to display information about our map
-    // var info = L.control({
-    //     position: "bottomright"
-    // });
-
-    
-    // // When the layer control is added, insert a div with the class of "legend"
-    // info.onAdd = function() {
-    //     var div = L.DomUtil.create("div", "legend");
-    //     return div;
-    // };
-
-    // // Add the info legend to the map
-    // info.addTo(map);
-
-    // var icons = {
-    //     COMING_SOON: L.ExtraMarkers.icon({
-    //       icon: "bus-outline",
-    //       iconColor: "white",
-    //       markerColor: "blue",
-    //       shape: "star"
-    //     }),
-    //     EMPTY: L.ExtraMarkers.icon({
-    //       icon: "heart-outline",
-    //       iconColor: "white",
-    //       markerColor: "orange",
-    //       shape: "circle"
-    //     })
-    // };
- 
-
-    
-// createMap();
-
-// Language from working towards attaching to bus data (like pulled in from an activity
-//     var overlayMaps = {
-//         "IndyGo Bus Stops": indyBus
-//     };
-
-//     function createMarkers(response) {
-
-//     // Pull the "stations" property off of response.data
-//     var buses = busData.;
-//     }
-
-//*********  START of Food Pantry Map  *************//
+//*********  START of Resource Map  *************//
 
 function createMap() {
   
@@ -443,9 +359,7 @@ function createMap() {
     layers: [baseMap]
   });
 
-
-
-  //make a call to the API endpoint
+  //make a call to the API endpoint for food
   d3.json('/api/food').then(data => {
 
       //loop through each record from the endpoint
@@ -472,125 +386,32 @@ function createMap() {
         marker.addTo(map);
       })
   });
-  
+
+  //make a call to the API endpoint for food
+  d3.json('/api/bus').then(data => {
+
+    //loop through each record from the endpoint for bus
+    data.forEach(geo => {
+
+      //create variables based on the data from the endpoint
+      var latitude = geo['latitude'];
+      var longitude = geo['longitude'];
+      var coordinates = [latitude, longitude];
+      var location = geo['description'];
+
+      //create a marker for each record in the endpoint
+      var marker = L.circleMarker(coordinates, {
+          fillColor: 'red',
+          color: 'red',
+          radius: 2
+        });
+
+      //set up the pop up for the marker
+      marker.bindPopup(`${location}`);
+
+      //add the marker to our map
+      marker.addTo(map);
+    })
+});
 }
-
-  function createMarkers(response) {
-
-    // Pull the "food" property off of response.data
-    var pantries = response.site_name;
-
-    // Initialize an array to hold bike markers
-    var pantryMarkers = [];
-
-    // Loop through the pantries array
-    for (var index = 0; index < site_name.length; index++) {
-      var pantry = pantries[index];
-
-    // For each pantry, create a marker and bind a popup with the pantry's name
-      var pantryMarker = L.marker([pantry.latitude, pantry.longitude])
-      .bindPopup("<h3>" + pantry.site_name + "<h3><h3>Hours: " + pantry.hours + "</h3>");
-
-    // Add the marker to the bikeMarkers array
-    pantryMarkers.push(pantryMarker);
-  }
-
-  // Create a layer group made from the bike markers array, pass it into the createMap function
-  createMap(L.layerGroup(pantryMarkers));
-}
-
 createMap();
-
-//*********  END of Food Pantry Map  *************//
-
-//   // Define a markerSize function that will give each city a different radius based on its population
-//   function markerSize(population) {
-//     return Math.sqrt(population) / 40;
-//   }
-  
-//   // Each city object contains the city's name, location and population
-//   var cities = [
-//     {
-//       name: "New York",
-//       location: [40.7128, -74.0059],
-//       population: 8550405
-//     },
-//     {
-//       name: "Chicago",
-//       location: [41.8781, -87.6298],
-//       population: 2720546
-//     },
-//     {
-//       name: "Houston",
-//       location: [29.7604, -95.3698],
-//       population: 2296224
-//     },
-//     {
-//       name: "Los Angeles",
-//       location: [34.0522, -118.2437],
-//       population: 3971883
-//     },
-//     {
-//       name: "Indianapolis",
-//       location: [39.76853, -86.15799],
-//       population: 6700000
-//     }
-//   ];
-  
-//   // Loop through the cities array and create one marker for each city object
-//   for (var i = 0; i < cities.length; i++) {
-//     L.circleMarker(cities[i].location, {
-//       fillOpacity: 0.75,
-//       color: "white",
-//       fillColor: "lightblue",
-//       // Setting our circle's radius equal to the output of our markerSize function
-//       // This will make our marker's size proportionate to its population
-//       radius: markerSize(cities[i].population)
-//     }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
-//   }
-// };
-//   //END OF COPY IN//
-
-// createMap();
-
-
-//***===========
-// Example from pet pals of function
-/* function buildPlot() {
-
-    /* data route */
-
-  /*const url = "/api/pals";
-  d3.json(url).then(function(response) {
-
-    console.log(response);
-
-    const data = response;
-
-    const layout = {
-      scope: "usa",
-      title: "Pet Pals",
-      showlegend: false,
-      height: 600,
-            // width: 980,
-      geo: {
-        scope: "usa",
-        projection: {
-          type: "albers usa"
-        },
-        showland: true,
-        landcolor: "rgb(217, 217, 217)",
-        subunitwidth: 1,
-        countrywidth: 1,
-        subunitcolor: "rgb(255,255,255)",
-        countrycolor: "rgb(255,255,255)"
-      }
-    };
-
-    Plotly.newPlot("plot", data, layout);
-  });
-}
-
-buildPlot(); */
-
-
