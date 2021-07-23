@@ -7,7 +7,7 @@ var filterButton = d3.select("#filter-btn");
 
 // Create the event handlers, for click of button and on enter in the input field
 filterButton.on("click", handlClick);
-form.on("submit", handlClick);
+//form.on("submit", handlClick);
 // =====================
 // Unemployment Claims Chart
 // =====================
@@ -268,9 +268,10 @@ function buildCovid(zip_code) {
     filteredData.forEach(row => {
 
       zipcode = row['zipcode'];
+      population = row['population'];
       patient_count = row['patient_count'];
       percentage = row['percentage'];
-      population = row['population'];
+      
 
       var tr = tbody.append('tr');
       tr.append('td').text(zipcode); 
