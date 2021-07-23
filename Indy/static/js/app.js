@@ -277,43 +277,13 @@ function buildCovid(zip_code) {
       tr.append('td').text(percentage);
       tr.append('td').text(population);
 
-      /* 
-             <th class="table-head">Zip Code</th>
-              <th class="table-head">Patient Count</th>
-              <th class="table-head">Percentage of Residents</th>
-              <th class="table-head">Total Population</th>   
-            */
-
-
-    })
-
-
-    // covidData.forEach(function(data) {          
-    //     data.zip = parseInt(data.zip);
-    //     data.shapearea = +data.shapearea;
-    //     data.len = +data.shapelen;
-    //     data.patient_count = +data.patient_count;
-    //     data.population = +data.population;
-    //     data.percentage = +data.percentage;
-    
-    
-    // Add a blank row for each county
-    // Extract data values and append to cells of the table for display
-    // covidData.forEach(data => {
-    //   var row = tbody.append("tr");     
-    //   Object.values(covidData).forEach(value => {
-    //     var cell = row.append("td");
-    //     cell.text(value);
-    //   })
-    //   })
-       
+    })     
   });
+
 // // Call the function to load the values to the table
 // showData(data);
 
 }; // end of buildCovid();
-
-
 
 // Establish a function to filter by datetime 
 function handlClick(){
@@ -371,7 +341,7 @@ function buildBus() {
 buildBus();
 
     // //Create a leaflet map with Indianapolis at the center
-        
+  
     // // Create the tile layer that will be the background of our map
     // var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     // attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -454,81 +424,134 @@ buildBus();
 //     var buses = busData.;
 //     }
 
+//*********  START of Food Pantry Map  *************//
 
-   
+function createMap() {
   
-    
-
-
-// ========================
-// View of map with Indianapolis as center, as a placeholder
-// ========================
-function createCity() {
-//START OF MAP COPY IN//
- // Create a map object
-var myMap = L.map("map", {
-    center: [39.76853, -86.15799],
-    zoom: 11
-  });
-  
-  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  baseMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
     id: "mapbox/streets-v11",
     accessToken: API_KEY
-  }).addTo(myMap);
-  
-  // Define a markerSize function that will give each city a different radius based on its population
-  function markerSize(population) {
-    return Math.sqrt(population) / 40;
-  }
-  
-  // Each city object contains the city's name, location and population
-  var cities = [
-    {
-      name: "New York",
-      location: [40.7128, -74.0059],
-      population: 8550405
-    },
-    {
-      name: "Chicago",
-      location: [41.8781, -87.6298],
-      population: 2720546
-    },
-    {
-      name: "Houston",
-      location: [29.7604, -95.3698],
-      population: 2296224
-    },
-    {
-      name: "Los Angeles",
-      location: [34.0522, -118.2437],
-      population: 3971883
-    },
-    {
-      name: "Indianapolis",
-      location: [39.76853, -86.15799],
-      population: 6700000
-    }
-  ];
-  
-  // Loop through the cities array and create one marker for each city object
-  for (var i = 0; i < cities.length; i++) {
-    L.circleMarker(cities[i].location, {
-      fillOpacity: 0.75,
-      color: "white",
-      fillColor: "lightblue",
-      // Setting our circle's radius equal to the output of our markerSize function
-      // This will make our marker's size proportionate to its population
-      radius: markerSize(cities[i].population)
-    }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
-  }
-};
-  //END OF COPY IN//
+  });
 
-createCity();
+  var map = L.map("map2", {
+    center: [39.76853, -86.15799],
+    zoom: 11,
+    layers: [baseMap]
+  });
+
+
+
+  //make a call to the API endpoint
+  d3.json('/api/food').then(data => {
+
+      //loop through each record from the endpoint
+      data.forEach(geo => {
+
+        //create variables based on the data from the endpoint
+        var latitude = geo['latitude'];
+        var longitude = geo['longitude'];
+        var coordinates = [latitude, longitude];
+        var site_name = geo['site_name'];
+        var hours = geo['hours'];
+
+        //create a marker for each record in the endpoint
+        var marker = L.circleMarker(coordinates, {
+            fillColor: 'blue',
+            color: 'blue',
+            radius: 5
+          });
+
+        //set up the pop up for the marker
+        marker.bindPopup(`${site_name}<br>${hours}`);
+
+        //add the marker to our map
+        marker.addTo(map);
+      })
+  });
+  
+}
+
+  function createMarkers(response) {
+
+    // Pull the "food" property off of response.data
+    var pantries = response.site_name;
+
+    // Initialize an array to hold bike markers
+    var pantryMarkers = [];
+
+    // Loop through the pantries array
+    for (var index = 0; index < site_name.length; index++) {
+      var pantry = pantries[index];
+
+    // For each pantry, create a marker and bind a popup with the pantry's name
+      var pantryMarker = L.marker([pantry.latitude, pantry.longitude])
+      .bindPopup("<h3>" + pantry.site_name + "<h3><h3>Hours: " + pantry.hours + "</h3>");
+
+    // Add the marker to the bikeMarkers array
+    pantryMarkers.push(pantryMarker);
+  }
+
+  // Create a layer group made from the bike markers array, pass it into the createMap function
+  createMap(L.layerGroup(pantryMarkers));
+}
+
+createMap();
+
+//*********  END of Food Pantry Map  *************//
+
+//   // Define a markerSize function that will give each city a different radius based on its population
+//   function markerSize(population) {
+//     return Math.sqrt(population) / 40;
+//   }
+  
+//   // Each city object contains the city's name, location and population
+//   var cities = [
+//     {
+//       name: "New York",
+//       location: [40.7128, -74.0059],
+//       population: 8550405
+//     },
+//     {
+//       name: "Chicago",
+//       location: [41.8781, -87.6298],
+//       population: 2720546
+//     },
+//     {
+//       name: "Houston",
+//       location: [29.7604, -95.3698],
+//       population: 2296224
+//     },
+//     {
+//       name: "Los Angeles",
+//       location: [34.0522, -118.2437],
+//       population: 3971883
+//     },
+//     {
+//       name: "Indianapolis",
+//       location: [39.76853, -86.15799],
+//       population: 6700000
+//     }
+//   ];
+  
+//   // Loop through the cities array and create one marker for each city object
+//   for (var i = 0; i < cities.length; i++) {
+//     L.circleMarker(cities[i].location, {
+//       fillOpacity: 0.75,
+//       color: "white",
+//       fillColor: "lightblue",
+//       // Setting our circle's radius equal to the output of our markerSize function
+//       // This will make our marker's size proportionate to its population
+//       radius: markerSize(cities[i].population)
+//     }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
+//   }
+// };
+//   //END OF COPY IN//
+
+// createMap();
 
 
 //***===========
@@ -569,3 +592,5 @@ createCity();
 }
 
 buildPlot(); */
+
+

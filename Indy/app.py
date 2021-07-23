@@ -11,7 +11,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-from config import username, password, dbhost, dbport, dbname 
+# from config import username, password, dbhost, dbport, dbname 
 
 #################################################
 # Flask Setup
@@ -21,7 +21,7 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-db_connection_str = os.environ.get('DATABASE_URL', '') or f"postgresql://{username}:{password}@{dbhost}:{dbport}/{dbname}"
+db_connection_str = os.environ.get('DATABASE_URL', '') # or f"postgresql://{username}:{password}@{dbhost}:{dbport}/{dbname}"
 
 engine = create_engine(db_connection_str)
 
