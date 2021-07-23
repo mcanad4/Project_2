@@ -371,7 +371,7 @@ function buildBus() {
 buildBus();
 
     // //Create a leaflet map with Indianapolis at the center
-        
+  
     // // Create the tile layer that will be the background of our map
     // var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     // attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -454,19 +454,12 @@ buildBus();
 //     var buses = busData.;
 //     }
 
+//*********  START of Food Pantry Map  *************//
 
-   
-  
-    
+function createMap(foodPantry) {
 
-
-// ========================
-// View of map with Indianapolis as center, as a placeholder
-// ========================
-function createCity() {
-//START OF MAP COPY IN//
  // Create a map object
-var myMap = L.map("map", {
+var cityMap = L.map("map", {
     center: [39.76853, -86.15799],
     zoom: 11
   });
@@ -478,57 +471,102 @@ var myMap = L.map("map", {
     zoomOffset: -1,
     id: "mapbox/streets-v11",
     accessToken: API_KEY
-  }).addTo(myMap);
-  
-  // Define a markerSize function that will give each city a different radius based on its population
-  function markerSize(population) {
-    return Math.sqrt(population) / 40;
-  }
-  
-  // Each city object contains the city's name, location and population
-  var cities = [
-    {
-      name: "New York",
-      location: [40.7128, -74.0059],
-      population: 8550405
-    },
-    {
-      name: "Chicago",
-      location: [41.8781, -87.6298],
-      population: 2720546
-    },
-    {
-      name: "Houston",
-      location: [29.7604, -95.3698],
-      population: 2296224
-    },
-    {
-      name: "Los Angeles",
-      location: [34.0522, -118.2437],
-      population: 3971883
-    },
-    {
-      name: "Indianapolis",
-      location: [39.76853, -86.15799],
-      population: 6700000
-    }
-  ];
-  
-  // Loop through the cities array and create one marker for each city object
-  for (var i = 0; i < cities.length; i++) {
-    L.circleMarker(cities[i].location, {
-      fillOpacity: 0.75,
-      color: "white",
-      fillColor: "lightblue",
-      // Setting our circle's radius equal to the output of our markerSize function
-      // This will make our marker's size proportionate to its population
-      radius: markerSize(cities[i].population)
-    }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
-  }
-};
-  //END OF COPY IN//
+  });
 
-createCity();
+  var baseMap = {"Light Map": cityMap};
+
+  var overlayMaps = {"Food Pantries": foodPantry};
+
+  // Create the map object with options
+  var map = L.map("map-id", {
+    center: [39.76853, -86.15799],
+    zoom: 11,
+    layers: [cityMap, foodPantry]
+  });
+  
+  // Create a layer control, pass in the baseMaps and overlayMaps. Add the layer control to the map
+  L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+  }).addTo(map);
+  }
+
+  function createMarkers(response) {
+
+    // Pull the "food" property off of response.data
+    var pantries = response.site_name;
+
+    // Initialize an array to hold bike markers
+    var pantryMarkers = [];
+
+    // Loop through the pantries array
+    for (var index = 0; index < site_name.length; index++) {
+      var pantry = pantries[index];
+
+    // For each pantry, create a marker and bind a popup with the pantry's name
+      var pantryMarker = L.marker([pantry.latitude, station.longitude])
+      .bindPopup("<h3>" + pantry.site_name + "<h3><h3>Hours: " + pantry.hours + "</h3>");
+
+    // Add the marker to the bikeMarkers array
+    pantryMarkers.push(pantryMarker);
+  }
+
+  // Create a layer group made from the bike markers array, pass it into the createMap function
+  createMap(L.layerGroup(pantryMarkers));
+}
+
+createMap();
+
+//*********  END of Food Pantry Map  *************//
+
+//   // Define a markerSize function that will give each city a different radius based on its population
+//   function markerSize(population) {
+//     return Math.sqrt(population) / 40;
+//   }
+  
+//   // Each city object contains the city's name, location and population
+//   var cities = [
+//     {
+//       name: "New York",
+//       location: [40.7128, -74.0059],
+//       population: 8550405
+//     },
+//     {
+//       name: "Chicago",
+//       location: [41.8781, -87.6298],
+//       population: 2720546
+//     },
+//     {
+//       name: "Houston",
+//       location: [29.7604, -95.3698],
+//       population: 2296224
+//     },
+//     {
+//       name: "Los Angeles",
+//       location: [34.0522, -118.2437],
+//       population: 3971883
+//     },
+//     {
+//       name: "Indianapolis",
+//       location: [39.76853, -86.15799],
+//       population: 6700000
+//     }
+//   ];
+  
+//   // Loop through the cities array and create one marker for each city object
+//   for (var i = 0; i < cities.length; i++) {
+//     L.circleMarker(cities[i].location, {
+//       fillOpacity: 0.75,
+//       color: "white",
+//       fillColor: "lightblue",
+//       // Setting our circle's radius equal to the output of our markerSize function
+//       // This will make our marker's size proportionate to its population
+//       radius: markerSize(cities[i].population)
+//     }).bindPopup("<h1>" + cities[i].name + "</h1> <hr> <h3>Population: " + cities[i].population + "</h3>").addTo(myMap);
+//   }
+// };
+//   //END OF COPY IN//
+
+// createMap();
 
 
 //***===========
@@ -569,3 +607,5 @@ createCity();
 }
 
 buildPlot(); */
+
+
