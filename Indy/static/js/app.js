@@ -367,7 +367,7 @@ function createMap2() {
           });
 
         //set up the pop up for the marker
-        marker.bindPopup(`${site_name}<br>${hours}`);
+        marker.bindPopup(`Location:${site_name}<br>Hours:${hours}`);
 
         //add the marker to our map
         marker.addTo(map);
@@ -435,7 +435,7 @@ function createMap() {
         var zip = geo['zipcode'];
         var population = geo['population'];
         var patients = geo['patient_count'];        
-        var percent = geo['percent'];  
+        var percent = geo['percentage'];  
 
         //create a marker for each record in the endpoint
         var marker = L.circleMarker(coordinates, {
@@ -445,7 +445,7 @@ function createMap() {
           });
 
         //set up the pop up for the marker
-        marker.bindPopup(`${zip}<br>${population}<br>${patients}<br>${percent}`);
+        marker.bindPopup(`Zip Code:${zip}<br>Population:${population}<br>Cases:${patients}<br>Percent:${percent}`);
 
         //add the marker to our map
         marker.addTo(map);
