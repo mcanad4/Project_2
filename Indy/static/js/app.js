@@ -8,6 +8,7 @@ var filterButton = d3.select("#filter-btn");
 // Create the event handlers, for click of button and on enter in the input field
 filterButton.on("click", handlClick);
 //form.on("submit", handlClick);
+
 // =====================
 // Unemployment Claims Chart
 // =====================
@@ -47,9 +48,6 @@ function buildUnemplChart() {
             
         });
 
-        // May be able to slice out certain time frames in the data using this type of code
-        // test = claimsData.map(obj=>obj.index).slice(52)
-        // console.log(test)
         // Create the area for the plot and define the x and y maximums
         
         
@@ -181,48 +179,15 @@ function buildUnemplChart() {
             return self.indexOf(value) === index;
             }
         var unique = timeframes.filter(uniqueValues);
-        
-        // TRYING TO GET UNIQUE TO SHOW UP AS DROPDOWN CHOICES:
-        d3.select('select').append('options').text(unique);
-        //d3.select('select' or SelDatase)?
-        
+                       
         // Print the data
         console.log(claimsData);
-          });
+        });
     
  };
 
 
 buildUnemplChart();
-
-// =====================================
-// Unemployment - Initial Claims Gauge
-// =====================================
-function buildUnemplDropdown() {
-
- // d3.select("select").append("option").text(timeframeData);
-}
-buildUnemplDropdown();
-
-// function renderData() {
-//     var sel = d3.select('select').node().value;
-//     console.log(`Timeframe Selection: ${sel}`);
-// }
-
-
-// function optionChanged() {
-//     renderData();
-// };
-
-// Define the function that will impact gauges
-// function renderData() {
-    // var seeMe = d3.select('select').node()
-    // console.log(seeMe)
-    
-    // Save the selected ID number to use for filtering 
-    // var sel = d3.select('select').node().value;
-    // console.log(`ID Number Selection: ${sel}`);
-    // console.log(typeof sel);
 
 // =====================================
 // JS Library Granim.js usage in footer
@@ -281,9 +246,6 @@ function buildCovid(zip_code) {
     
     })     
   });
-
-// // Call the function to load the values to the table
-// showData(data);
 
 }; // end of buildCovid();
 
