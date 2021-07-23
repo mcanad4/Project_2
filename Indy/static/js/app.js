@@ -1,13 +1,13 @@
 /**************************
   Identify Filter Button and add event listener
-**************************/
+***************************/
 
 // Get a reference to the button that can be clicked to filter for a date
 var filterButton = d3.select("#filter-btn");
 
 // Create the event handlers, for click of button and on enter in the input field
 filterButton.on("click", handlClick);
-
+form.on("submit", handlClick);
 // =====================
 // Unemployment Claims Chart
 // =====================
@@ -15,16 +15,16 @@ filterButton.on("click", handlClick);
 // Define dimensions and append to svg for unemployment chart
 var svgWidth = parseFloat(d3.select('.chart').style('width')) *.95;
 // console.log('test: ',svgWidth);
-var svgHeight = .55*svgWidth;
+var svgHeight = .52*svgWidth;
 var svg = d3.select('.chart')
     .append('svg')
     .style('width',svgWidth)
     .style('height',svgHeight);
 var margin = {
     top: 10,
-    right: 40,
+    right: 60,
     bottom: 60,
-    left: 160
+    left: 140
 }
 
 var chartGroup = svg.append("g")
@@ -132,8 +132,8 @@ function buildUnemplChart() {
         // Create a rectangle and legend to sit in it
         legendGroup = svg.append("g")
         claimsLegend = legendGroup.append("rect") 
-            .attr("x", 240)
-            .attr("y", 70)
+            .attr("x", 230)
+            .attr("y", 50)
             .attr("rx", "8px")
             .attr("width", 280)
             .attr("height", 80)
@@ -141,16 +141,16 @@ function buildUnemplChart() {
             .attr("opacity", "0.8");
 
         legendGroup.append("text")
-            .attr("x", 250)
-            .attr("y", 100)
+            .attr("x", 240)
+            .attr("y", 80)
             .style("fill", "orange")
             .text("Weekly Initial Claims")
             .style("font-size", "20px")
             .style("font-weight", "bold");
 
         legendGroup.append("text")
-            .attr("x", 250)
-            .attr("y", 130)
+            .attr("x", 240)
+            .attr("y", 110)
             .style("fill", "teal")
             .text("Weekly Continued Claims")
             .style("font-size", "20px")
@@ -243,6 +243,7 @@ var granimInstance = new Granim({
     }
 });
 
+
 // =====================
 // Covid Map
 // =====================
@@ -272,11 +273,11 @@ function buildCovid(zip_code) {
       population = row['population'];
 
       var tr = tbody.append('tr');
-      tr.append('td').text(zipcode);
+      tr.append('td').text(zipcode); 
+      tr.append('td').text(population);
       tr.append('td').text(patient_count);
       tr.append('td').text(percentage);
-      tr.append('td').text(population);
-
+    
     })     
   });
 

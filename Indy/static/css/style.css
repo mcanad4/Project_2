@@ -6,29 +6,55 @@ body {
   
   
 h1 {
-  color: #6A5ACD }
-
-h3 {
-  color:darkblue
+  color: #7163ce;
+  font-size: 34px;
+  padding-left: 40px;
 }
 
 
+h2 {
+  color:white;
+  font-size: 24px;
+}
+
+
+h3 {
+  color:darkblue;
+  font-size: 24px;
+}
+
+h4 {
+  color: #7163ce;
+  font-size: 28px;
+  padding-left: 28px;
+}
+
 
 /* set map, body, and html to 100% of the screen size */ 
-#map,
+#map { 
+  height: 90%;
+  min-height: 400px;
+}
+
+#map2 { 
+  height: 90%;
+  min-height: 400px;
+  width: 50%
+}
+
+.chart {
+  max-width: 1250px;
+}
+
+.table-head {
+  font-size: 14px;
+}
+
 body,
 html {
   height: 100%;
   min-height: 600px;
 }
-
-/* .chart {
-  max-width: 800px;
-} */
-
-/* .card {
-  border: none;
-} */
 
 .line {
   fill: none;
@@ -62,7 +88,8 @@ html {
   /* z-index: 1; */
 }
 
-#canvas-basic{
+#canvas-basic,
+#canvas-basic2 {
   /* position: absolute; */
   /* z-index: 2; */
   display: block;

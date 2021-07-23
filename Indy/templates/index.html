@@ -19,183 +19,145 @@
   <!-- <link rel="stylesheet" type="text/css" href="../static/css/style.css"> -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-
-  <!-- If need a d3Style.css
-     <link rel="stylesheet" href="assets/css/d3Style.css"> 
-    
-    For live deployment
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3Style.css') }}"> 
-    -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project 2</title>
+  <title>Project 2 - Marion County</title>
 
 </head>
 
-<body style="background-color:darkblue; padding-top:20px; padding-left:10px; padding-right:10px">
+<body style="background-color:darkblue; padding-top:16px; padding-left:8px; padding-right:8px">
 
 <!-- The container for map and covid filter-->
-<div class="container-fluid p-4">
+<div class="row pt-10 ms-2 me-2 padding-bottom:0px">
+   <h4><em><b>Spotlight: Marion County</em></b>
+</div>
+<div class="row ms-8 me-2"></div>     
+   <h1><em>COVID-19 and Unemployment</em></h1>
+</div>
 
-
-  <div class="row bg-white p-6 ms-2 me-2">
-    <h1>Visualizations Title</h1>
-    
-    <div class="col-4 pt-md-4 pt-sm-4">
-      <h3> Testing Map 1</h3> <!-- can add class="text-info fw-bold" following first h3-->
+<div class="container-fluid p-2">
+  
+  <div class="row bg-white p-4 ms-2 me-2 justify-content-evenly"> 
+    <h3> COVID-19 Resident Positivity</h3>
+    <div class="col-5 ms-2 me-2">
+     
       <div id="map">
 
       </div>
+  
     </div>    
     
     <div class="col-6 bg-white ms-2 me-2">
-    <h1>COVID-19 Cases in Marion County</h1>
-
-    <!-- <div class='wrapper'> -->
-    <div class="col-mt-20 bg-white p-4 ms-2 me-2">
-    <aside class="filters">
-      <div class="panel panel-default">
-        <div class="panel-heading">Filter Search
-          <br>Enter a Marion County Zip</div>
-        <div class="panel-body">
-          <form>
-            <div class="form-group">
-              <ul class="list-group" id="filters">
-                <li class="filter list-group-item">
-                  <label for="date">Enter a Zip</label>
-                  <input class="form-control" id="location" type="text" placeholder="46204">
-                </li>
-              </ul>
-            </div>
-            <button id="filter-btn" type="button" class="btn btn-secondary">Filter Table</button>
-          </form>
-        </div>
-      </div>
-    </aside>
-    </div>
-    <div class="col-md-9">
-    <div id="table-area justify-content-evenly" class="">
-      <table id="covid-table" class="table table-striped">
-        <thead>
-          <tr>
-            <th class="table-head">Zip Code</th>
-            <th class="table-head">Patient Count</th>
-            <th class="table-head">Percentage of Residents</th>
-            <th class="table-head">Total Population</th>                           
-          </tr>
-        </thead>
-        <tbody id='covid-tbody'>
-            
-        </tbody>
-      </table>
-    </div>
-    </div>
-    </div>
-    </div>  
-    </div>  
-    
-
-
-
-    <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
-      <h3>Marion County Unemployment Claims</h3>
-
-
-      <div class="col-10 pt-md-4 pt-sm-4 pb-4">
-        <div class="chart">
-          <!-- <div class="lineLegend">
-          </div>    -->
-        </div>
-      </div>
-
-      <div class="col-2 col-sm-2 col-xs-2 bg-white">
-        <h5><b>Timeframe:</b></h5>
-        
-        <select id="selDataset" onchange="optionChanged(this.value)"></select>
-
-        <div id="gaugeInit">
-
-        </div>
-
-        <div id="gaugeCont">
-
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text </p>
-            <div id="gaugeInit">
-
-            </div>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-            <br><br><br><br>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text </p>
-
-              <div id="gaugeCont">
-
+      <!-- <div class='wrapper'> -->
+      <div class= "row p-20">
+        <div class="col-4 mt-20 bg-white p-4 ms-2 me-2">
+          <aside class="filters">
+            <div class="panel panel-default">
+              <div class="panel-heading">Filter Search
               </div>
-              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-              <br><br><br><br>
+              <div class="panel-body">
+                <form>
+                  <div class="form-group">
+                    <ul class="list-group" id="filters">
+                      <li class="filter list-group-item">
+                        <label for="date">Enter a Marion Co Zip</label>
+                        <input class="form-control" id="location" type="text" placeholder="46204">
+                      </li>
+                    </ul>
+                  </div>
+                  <button id="filter-btn" type="button" class="btn btn-secondary">Filter Table</button>
+                </form>
+              </div>
             </div>
-
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text </p>
-              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-              <br><br><br><br>
-            </div>
-          </div>
+          </aside>
         </div>
+        <div class="col-7 mt-20 bg-white p-4">
+          <div id="table-area justify-content-evenly" class="">
+            <table id="covid-table" class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="table-head">Zip Code</th>  
+                  <th class="table-head">Population Total</th>           
+                  <th class="table-head">Positive Residents</th>
+                  <th class="table-head">% of Residents</th>
+                                             
+                </tr>
+              </thead>
+              <tbody id='covid-tbody'>
+                  
+              </tbody>
+              </table>
+            
+          </div>  
+        </div>  
+      </div>
+    </div> 
+  </div>
+
+  <div class="row mt-md-0 mt-sm-0 p-md-4 p-sm-4 ms-2 me-2 justify-content-evenly bg-white">
+  <h3>Marion County Unemployment Claims</h3>
+    <div class="col-10 pt-md-4 pt-sm-4 pb-4">
+      <div class="chart">
+        
       </div>
     </div>
 
-
-  
-  
-    </div>
-  
-        <!-- Footer-->
-        <div class="row ms-4 me-4">
-          <div class="col-md-9">
-            <canvas id="canvas-basic">
+    <div class="col-2 col-sm-2 col-xs-2 bg-white">
     
-            </canvas>
-          </div>
-          <div class="col-md-3 p-2">
-            <div id="footer">
-              <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
-            </div>
-          </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text </p>
         </div>
+          
+        
       </div>
-  <div class="container-fluid p-4">
-<div class="col-md-6 bg-white pt-md-8 pt-sm-4">
-  <h3>Testing Map 2 Location</h3>
-  <div id="map2" style='height: 400px; width: auto;'></div>
-</div>   
 
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text </p>
 
-    <!-- Footer
-    <div class="row ms-4 me-4">
-      <div class="col-md-9">
-        <canvas id="canvas-basic">
-
-        </canvas>
-      </div>
-      <div class="col-md-3 p-2">
-        <div id="footer">
-          <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
         </div>
       </div>
     </div>
-     -->
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-9 margin-top:10px">
+      <h1><em><br>Resources for Families in Need</em></h1>
+     
+    </div>
+  </div>
+</div>
+
+  
+<div class="container-fluid p-0">
+
+  <div class="row ms-2 me-2">
+    <div class="col-md-12 bg-white p-4 pt-md-8 pt-sm-4">
+      <h3>Testing Map 2 Location</h3>
+    <div class="col-5 ms-2 me-2">
+      <div id="map2" style='height: 400px; width: auto;'>
+      </div>
+    </div> 
+  </div>
+    <!-- Footer-->
+  <div class="row pb-4">  <!--ms-4 me-4"-->
+    <div class="col-md-9">
+      <canvas id="canvas-basic">
+
+      </canvas>
+    </div>
+    <div class="col-md-3 pt-2 pb-4">
+      <div id="footer">
+      <p>Data Analytics Project<br>Matt Canady, Lindsay Reynolds</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
     <!-- D3 -->
