@@ -141,11 +141,61 @@
     <div class="col-5 ms-2 me-2">
       <div id="map2" style='height: 400px; width: auto;'>
       </div>
-    </div> 
-  </div>
+      <div class="col-6 ms-2 me-2">
+      
+        <div class= "row p-20">
+          <div class="col-4 mt-20 bg-white p-4 ms-2 me-2">
+            <aside class="filters2">
+              <div class="panel2 panel-default">
+                <div class="panel2-heading">Filter Search
+                </div>
+                <div class="panel2-body">
+                  <form>
+                    <div class="form2">
+                      <div class="form2-group">
+                        <ul class="list-group" id="filters2">
+                          <li class="filter2 list-group-item">
+                            <label for="zip">Enter a Marion Co Zip</label>
+                            <input class="form2-control" id="location2" type="text" placeholder="46204">
+                          </li>
+                        </ul>
+                      </div>
+                      <button id="filter-btn2" type="button" class="btn btn-secondary">Filter Table</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </aside>
+          </div>
+          <div class="col-7 mt-20 bg-white p-4">
+            <div id="table-area justify-content-evenly" class="">
+              <table id="food-table" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="food-table-head">Zip Code</th>  
+                    <th class="food-table-head">Food Pantry Site</th>           
+                    <th class="food-table-head">Food Pantry Hours</th>
+                    
+                                                 
+                  </tr>
+                </thead>
+                <tbody id='food-tbody'>
+                      
+                </tbody>
+              </table>
+                
+            </div>  
+          </div>  
+        </div>
+      </div>   
+
+    </div>  
+  </div> 
+
+</div>
     <!-- Footer-->
   <div class="row pb-4">  <!--ms-4 me-4"-->
-    <div class="col-md-9">
+    <div class="col-md-8 col-sm">
       <canvas id="canvas-basic">
 
       </canvas>

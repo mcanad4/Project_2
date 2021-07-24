@@ -4,10 +4,17 @@
 
 // Get a reference to the button that can be clicked to filter for a date
 var filterButton = d3.select("#filter-btn");
-
+var form = d3.select("form");
 // Create the event handlers, for click of button and on enter in the input field
 filterButton.on("click", handlClick);
-//form.on("submit", handlClick);
+form.on("submit", handlClick);
+
+var filterButton2 = d3.select("#filter-btn2");
+var form2 = d3.select("form2");
+// Create the event handlers, for click of button and on enter in the input field
+filterButton2.on("click", handlClickFood);
+form2.on("submit", handlClickFood);
+
 
 // =====================
 // Unemployment Claims Chart
@@ -34,178 +41,173 @@ var chartGroup = svg.append("g")
 // Read in the data for unemployment
 function buildUnemplChart() {
 
-    //     /* data route */
-    const url = "/api/unemploy";
-    d3.json(url).then(function(claimsData) {
-        
-        claimsData.forEach(function(data) {          
-            data.index = +data.index;
-            data.year = +data.year;
-            data.week = +data.week;
-            data.continued_claims = +data.continued_claims;
-            data.init_claims = +data.init_claims;
-            data.timeframe = data.timeframe;
-            
-        });
-
-        // Create the area for the plot and define the x and y maximums
-        
-        
-        var width = svgWidth - margin.left - margin.right;
-        var height = svgHeight - margin.top - margin.bottom;
-        
-        var xMax = d3.max(claimsData, d => d.index);
-        console.log(xMax);
-        
-        var contMax = d3.max(claimsData, d => d.continued_claims);
-        var initMax = d3.max(claimsData, d => d.init_claims);
-
-        var yMax = 40000;
-        
-
-     
-        // Create the scales and line for continued claims
-        var xLinearScaleCont = d3.scaleLinear()
-          .domain(d3.extent(claimsData, d => d.index))
-          .range([0, width]);
-        console.log(claimsData);
-       
-        var x = d3.scalePoint()
-            .domain([" ","Apr-2018", "Jul-2018", "Oct-2018", "Jan-2019", "Apr-2019", "Jul-2019", "Oct-2019", 
-            "Jan-2020", "Apr-2020", "Jul-2020", "Oct-2020", "Jan-2021", "Apr-2021", "Jul-2021"])
-            .range([0, width]);
-
-        var yLinearScaleCont = d3.scaleLinear().range([height, 0]);
-        
-        xLinearScaleCont.domain([0, xMax + 5]);
-        yLinearScaleCont.domain([0, yMax + 20]);
-
-        // var bottomAxis = d3.axisBottom(xLinearScaleCont);
-        var bottomAxis = d3.axisBottom(x);
-        var leftAxis = d3.axisLeft(yLinearScaleCont);
-    
-        chartGroup.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .style("font", "14px times")
-            .call(bottomAxis);
-
-        chartGroup.append("g").call(leftAxis)
-            .style("font", "16px times");
-        
-        var contLine = d3.line()    
-            .x(d => xLinearScaleCont(d.index))
-            .y(d => yLinearScaleCont(d.continued_claims));
-
-        chartGroup
-            .append("path")
-            .attr("d", contLine(claimsData))
-            .classed("line darkblue", true);
-
-        console.log(`contMax: ${contMax}`);
-        console.log(`initMax: ${initMax}`);
-
-        
-        // Create the initLine and the totalLine (using same x and y scale as the continued claims)
-        var initLine = d3.line()    
-            .x(d => xLinearScaleCont(d.index))
-            .y(d => yLinearScaleCont(d.init_claims));
-
-        chartGroup
-            .append("path")
-            .attr("d", initLine(claimsData))
-            .classed("line orange", true);
-
-        var labelsGroup = chartGroup.append("g")
-            .attr("transform", `translate(${-80}, ${50 + height / 2})`);
-        
-        labelsGroup.append("text")
-        .attr("transform", "rotate(-90)")
-        .style("font", "18px times")
-        .style("font-family", "Segoe UI")
-        .attr("text.anchor", "middle")
-        .text("Claims per Week")
-        //.style("font-weight", "bold")
-        .style("fill", "black");   
-        
-        // Create a rectangle and legend to sit in it
-        legendGroup = svg.append("g")
-        claimsLegend = legendGroup.append("rect") 
-            .attr("x", 130)
-            .attr("y", 22)
-            .attr("rx", "8px")
-            .attr("width", 280)
-            .attr("height", 80)
-            .attr("fill", "#ffe9c0")
-            .attr("opacity", "0.8");
-
-        legendGroup.append("text")
-            .attr("x", 145)
-            .attr("y", 50)
-            .style("fill", "orange")
-            .text("Weekly Initial Claims")
-            .style("font-size", "20px")
-            .style("font-weight", "bold");
-
-        legendGroup.append("text")
-            .attr("x", 145)
-            .attr("y", 80)
-            .style("fill", "teal")
-            .text("Weekly Continued Claims")
-            .style("font-size", "20px")
-            .style("font-weight", "bold");
-        
-       
-              
+  //     /* data route */
+  const url = "/api/unemploy";
+  d3.json(url).then(function(claimsData) {
       
-        // TOTAL CLAIMS (Init + Continued)
-        // var totalLine = d3.line()    
-        //     .x(d => xLinearScaleCont(d.index))
-        //     .y(d => yLinearScaleCont(d.init_claims + d.continued_claims));
-
-        // chartGroup
-        //     .append("path")
-        //     .attr("d", totalLine(claimsData))
-        //     .classed("line teal", true);
+    claimsData.forEach(function(data) {          
+        data.index = +data.index;
+        data.year = +data.year;
+        data.week = +data.week;
+        data.continued_claims = +data.continued_claims;
+        data.init_claims = +data.init_claims;
+        data.timeframe = data.timeframe;
         
-        var timeframes = [];
-        claimsData.forEach(function(data) {
-            Object.entries(data).forEach(([key, value]) => {
-                if (key === "timeframe") {
-                    timeframes.push(value);
-                }
-            });
-        })
-        function uniqueValues(value, index, self) {
-            return self.indexOf(value) === index;
+    });
+
+    // Create the area for the plot and define the x and y maximums
+      
+      
+    var width = svgWidth - margin.left - margin.right;
+    var height = svgHeight - margin.top - margin.bottom;
+    
+    var xMax = d3.max(claimsData, d => d.index);
+        
+    var contMax = d3.max(claimsData, d => d.continued_claims);
+    var initMax = d3.max(claimsData, d => d.init_claims);
+
+    var yMax = 40000;
+         
+    // Create the scales and line for continued claims
+    var xLinearScaleCont = d3.scaleLinear()
+      .domain(d3.extent(claimsData, d => d.index))
+      .range([0, width]);
+    
+    console.log("Unemployment Claims")  
+    console.log(claimsData);
+      
+    var x = d3.scalePoint()
+      .domain([" ","Apr-2018", "Jul-2018", "Oct-2018", "Jan-2019", "Apr-2019", "Jul-2019", "Oct-2019", 
+      "Jan-2020", "Apr-2020", "Jul-2020", "Oct-2020", "Jan-2021", "Apr-2021", "Jul-2021"])
+      .range([0, width]);
+
+    var yLinearScaleCont = d3.scaleLinear().range([height, 0]);
+      
+    xLinearScaleCont.domain([0, xMax + 5]);
+    yLinearScaleCont.domain([0, yMax + 20]);
+
+    // var bottomAxis = d3.axisBottom(xLinearScaleCont);
+    var bottomAxis = d3.axisBottom(x);
+    var leftAxis = d3.axisLeft(yLinearScaleCont);
+
+    chartGroup.append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .style("font", "14px times")
+      .call(bottomAxis);
+
+    chartGroup.append("g").call(leftAxis)
+      .style("font", "16px times");
+      
+    var contLine = d3.line()    
+      .x(d => xLinearScaleCont(d.index))
+      .y(d => yLinearScaleCont(d.continued_claims));
+
+    chartGroup
+      .append("path")
+      .attr("d", contLine(claimsData))
+      .classed("line darkblue", true);
+
+    console.log(`contMax: ${contMax}`);
+    console.log(`initMax: ${initMax}`);
+
+    
+    // Create the initLine and the totalLine (using same x and y scale as the continued claims)
+    var initLine = d3.line()    
+      .x(d => xLinearScaleCont(d.index))
+      .y(d => yLinearScaleCont(d.init_claims));
+
+    chartGroup
+      .append("path")
+      .attr("d", initLine(claimsData))
+      .classed("line orange", true);
+
+    var labelsGroup = chartGroup.append("g")
+      .attr("transform", `translate(${-80}, ${50 + height / 2})`);
+    
+    labelsGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .style("font", "18px times")
+    .style("font-family", "Segoe UI")
+    .attr("text.anchor", "middle")
+    .text("Claims per Week")
+    //.style("font-weight", "bold")
+    .style("fill", "black");   
+        
+    // Create a rectangle and legend to sit in it
+    legendGroup = svg.append("g")
+    claimsLegend = legendGroup.append("rect") 
+      .attr("x", 130)
+      .attr("y", 22)
+      .attr("rx", "8px")
+      .attr("width", 280)
+      .attr("height", 80)
+      .attr("fill", "#ffe9c0")
+      .attr("opacity", "0.8");
+
+    legendGroup.append("text")
+      .attr("x", 145)
+      .attr("y", 50)
+      .style("fill", "orange")
+      .text("Weekly Initial Claims")
+      .style("font-size", "20px")
+      .style("font-weight", "bold");
+
+    legendGroup.append("text")
+      .attr("x", 145)
+      .attr("y", 80)
+      .style("fill", "darkblue")
+      .text("Weekly Continued Claims")
+      .style("font-size", "20px")
+      .style("font-weight", "bold");
+              
+
+  // TOTAL CLAIMS (Init + Continued)
+  // var totalLine = d3.line()    
+    //  .x(d => xLinearScaleCont(d.index))
+    //  .y(d => yLinearScaleCont(d.init_claims + d.continued_claims));
+
+  // chartGroup
+    //  .append("path")
+    //  .attr("d", totalLine(claimsData))
+    //  .classed("line teal", true);
+      
+    var timeframes = [];
+    claimsData.forEach(function(data) {
+        Object.entries(data).forEach(([key, value]) => {
+            if (key === "timeframe") {
+                timeframes.push(value);
             }
-        var unique = timeframes.filter(uniqueValues);
-                       
-        // Print the data
-        console.log(claimsData);
         });
+    })
+    function uniqueValues(value, index, self) {
+        return self.indexOf(value) === index;
+        }
+    var unique = timeframes.filter(uniqueValues);
+                    
+    });
     
  };
 
-
 buildUnemplChart();
+// End of Unemployment Analysis
+
 
 // =====================================
 // JS Library Granim.js usage in footer
 // =====================================
 
 var granimInstance = new Granim({
-    element: '#canvas-basic',
-    direction: 'diagonal',
-    isPausedWhenNotInView: true,
-    states : {
-        "default-state": {
-            gradients: [
-                ['#22E4AC', '#0575E6'],
-                ['#e1eec3', '#FFB302'],
-                ['#e9e2ff', '#a171ff']
-            ]
-        }
-    }
+  element: '#canvas-basic',
+  direction: 'diagonal',
+  isPausedWhenNotInView: true,
+  states : {
+"default-state": {
+  gradients: [
+    ['#22E4AC', '#0575E6'],
+    ['#e1eec3', '#FFB302'],
+    ['#e9e2ff', '#a171ff']
+  ]}
+}
 });
 
 
@@ -219,40 +221,35 @@ function buildCovid(zip_code) {
   
   // Clear out the table displayed each time filter function is used
   tbody.html('');
-  // Get a reference to the form (or input element) on the page 
-  // var form = d3.select(".filters"); //also worked
-  // var form = d3.select("form");
-
+  
   /* data route */
   const url = "/api/covid";
 
   d3.json(url).then(function(covidData) {
     
-    var filteredData = covidData.filter(obj=>obj['zipcode'] == zip_code);
+  var filteredData = covidData.filter(obj=>obj['zipcode'] == zip_code);
 
-    filteredData.forEach(row => {
+  filteredData.forEach(row => {
 
-      zipcode = row['zipcode'];
-      population = row['population'];
-      patient_count = row['patient_count'];
-      percentage = row['percentage'];
-      
-
-      var tr = tbody.append('tr');
-      tr.append('td').text(zipcode); 
-      tr.append('td').text(population);
-      tr.append('td').text(patient_count);
-      tr.append('td').text(percentage);
+    zipcode = row['zipcode'];
+    population = row['population'];
+    patient_count = row['patient_count'];
+    percentage = row['percentage'];
+    
+    var tr = tbody.append('tr');
+    tr.append('td').text(zipcode); 
+    tr.append('td').text(population);
+    tr.append('td').text(patient_count);
+    tr.append('td').text(percentage);
     
     })     
   });
-
-}; // end of buildCovid();
+}; // End of buildCovid();
 
 // Establish a function to filter by datetime 
 function handlClick(){
 
-  // d3.event.preventDefault()
+  d3.event.preventDefault()
   var zip_code = d3.select('#location').property("value");
 
   buildCovid(zip_code);  
@@ -270,15 +267,15 @@ const url = "/api/covid";
 d3.json(url).then(function(caseData) {
 
   caseData.forEach(function(data) {          
-      data.zipcode = parseInt(data.zipcode);
-      data.patient_count = +data.patient_count;
-      data.population = +data.population;
-      data.percentage = +data.percentage;
-      data.lat = +data.lat;
-      data.lng = +data.lng;
-  });
-
-  console.log(caseData);
+    data.zipcode = parseInt(data.zipcode);
+    data.patient_count = +data.patient_count;
+    data.population = +data.population;
+    data.percentage = +data.percentage;
+    data.lat = +data.lat;
+    data.lng = +data.lng;
+});
+console.log("Covid Case Data")
+console.log(caseData);
 })
 }
 buildCases();
@@ -299,10 +296,54 @@ function buildFood() {
         data.longitude = +data.longitude;
     });
 
+    console.log("Food Pantries")
     console.log(foodData);
 })
 }
 buildFood();
+
+// =====================
+// Food Filter and Table
+// =====================
+function buildFoodTable(zip) {
+    
+  // Get a reference to the table body
+  var tbody = d3.select('#food-tbody');
+  
+  // Clear out the table displayed each time filter function is used
+  tbody.html('');
+  
+  /* data route */
+  const url = "/api/food";
+
+  d3.json(url).then(function(foodData) {
+    
+  var filteredData = foodData.filter(obj=>obj['zip'] == zip);
+
+  filteredData.forEach(row => {
+
+    zipcode = row['zip'];
+    site = row['site_name'];
+    hours = row['hours'];
+    
+    var tr = tbody.append('tr');
+    tr.append('td').text(zipcode); 
+    tr.append('td').text(site);
+    tr.append('td').text(hours);
+        
+    })     
+  });
+}; // End of buildFoodTable();
+
+// Establish a function to filter by xip 
+function handlClickFood(){
+
+  d3.event.preventDefault()
+  var zip_code = d3.select('#location2').property("value");
+
+  buildFoodTable(zip);  
+
+};
 
 // =====================
 // Bus Data
@@ -321,7 +362,8 @@ function buildBus() {
             data.latitude = +data.latitude;
             data.longitude = +data.longitude;
         });
-
+    
+    console.log("Bus Stops")    
     console.log(busData);
 })
 }
@@ -349,29 +391,29 @@ function createMap2() {
   //make a call to the API endpoint for food
   d3.json('/api/food').then(data => {
 
-      //loop through each record from the endpoint
-      data.forEach(geo => {
+    //loop through each record from the endpoint
+    data.forEach(geo => {
 
-        //create variables based on the data from the endpoint
-        var latitude = geo['latitude'];
-        var longitude = geo['longitude'];
-        var coordinates = [latitude, longitude];
-        var site_name = geo['site_name'];
-        var hours = geo['hours'];
+      //create variables based on the data from the endpoint
+      var latitude = geo['latitude'];
+      var longitude = geo['longitude'];
+      var coordinates = [latitude, longitude];
+      var site_name = geo['site_name'];
+      var hours = geo['hours'];
 
-        //create a marker for each record in the endpoint
-        var marker = L.circleMarker(coordinates, {
-            fillColor: 'blue',
-            color: 'blue',
-            radius: 5
-          });
+      //create a marker for each record in the endpoint
+      var marker = L.circleMarker(coordinates, {
+          fillColor: 'blue',
+          color: 'blue',
+          radius: 5
+        });
 
-        //set up the pop up for the marker
-        marker.bindPopup(`Location:${site_name}<br>Hours:${hours}`);
+      //set up the pop up for the marker
+      marker.bindPopup(`Location:${site_name}<br>Hours:${hours}`);
 
-        //add the marker to our map
-        marker.addTo(map);
-      })
+      //add the marker to our map
+      marker.addTo(map);
+    })
   });
 
   //make a call to the API endpoint for food
@@ -399,7 +441,7 @@ function createMap2() {
       //add the marker to our map
       marker.addTo(map);
     })
-});
+  });
 }
 createMap2();
 
@@ -425,31 +467,31 @@ function createMap() {
   //make a call to the API endpoint for food
   d3.json('/api/covid').then(data => {
 
-      //loop through each record from the endpoint
-      data.forEach(geo => {
+    //loop through each record from the endpoint
+    data.forEach(geo => {
 
-        //create variables based on the data from the endpoint
-        var latitude = geo['lat'];
-        var longitude = geo['lng'];
-        var coordinates = [latitude, longitude];
-        var zip = geo['zipcode'];
-        var population = geo['population'];
-        var patients = geo['patient_count'];        
-        var percent = geo['percentage'];  
+      //create variables based on the data from the endpoint
+      var latitude = geo['lat'];
+      var longitude = geo['lng'];
+      var coordinates = [latitude, longitude];
+      var zip = geo['zipcode'];
+      var population = geo['population'];
+      var patients = geo['patient_count'];        
+      var percent = geo['percentage'];  
 
-        //create a marker for each record in the endpoint
-        var marker = L.circleMarker(coordinates, {
-            fillColor: 'blue',
-            color: 'blue',
-            radius: 5
-          });
+      //create a marker for each record in the endpoint
+      var marker = L.circleMarker(coordinates, {
+        fillColor: 'blue',
+        color: 'blue',
+        radius: 5
+      });
 
-        //set up the pop up for the marker
-        marker.bindPopup(`Zip Code:${zip}<br>Population:${population}<br>Cases:${patients}<br>Percent:${percent}`);
+      //set up the pop up for the marker
+      marker.bindPopup(`Zip Code:${zip}<br>Population:${population}<br>Cases:${patients}<br>Percent:${percent}`);
 
-        //add the marker to our map
-        marker.addTo(map);
-      })
+      //add the marker to our map
+      marker.addTo(map);
+    })
   });
 }
 createMap();

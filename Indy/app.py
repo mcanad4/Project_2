@@ -32,7 +32,7 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(engine, reflect=True)
 
-print(Base.classes.keys())
+# print(Base.classes.keys())
 # Save reference to the table (update this to new table names)
 Bus = Base.classes.bus_clean
 Covid = Base.classes.covid_clean
@@ -41,12 +41,12 @@ Food = Base.classes.food_clean
 Unemploy = Base.classes.unemploy_clean
 Zip = Base.classes.zip_clean
 
-# create route that renders index.html template
+# Create route that renders index.html template
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 @app.route("/api/bus")
 def bus():
     # Create our session (link) from Python to the DB
@@ -59,7 +59,7 @@ def bus():
     session.close()
     return jsonify(new_results)
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 @app.route("/api/food")
 def food():
     # Create our session (link) from Python to the DB
@@ -72,7 +72,7 @@ def food():
     session.close()
     return jsonify(new_results)
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 @app.route("/api/unemploy")
 def unemploy():
     # Create our session (link) from Python to the DB
@@ -86,7 +86,7 @@ def unemploy():
 
     return jsonify(new_results)
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 @app.route("/api/covid")
 def covid():
     # Create our session (link) from Python to the DB
@@ -103,7 +103,7 @@ def covid():
 if __name__ == "__main__":
     app.run(debug=True)
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 @app.route("/api/zip")
 def zip():
     # Create our session (link) from Python to the DB
@@ -121,10 +121,10 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 # /////////
-# routes like this didn't connect to data / need to be like above
+# Routes like this didn't connect to data / need to be like above
 
 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 # @app.route("/api/neighborhoods")
 # def neighborhoods():
 #     # Create our session (link) from Python to the DB
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 #     session.close()
 #     return jsonify(results)
 # 
-# create route that renders all the data brought in from postgres
+# Create route that renders all the data brought in from postgres
 # @app.route("/api/zip")
 # def zip():
 #     # Create our session (link) from Python to the DB
