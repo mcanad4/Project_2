@@ -41,14 +41,14 @@ h4 {
 /* set map, body, and html to 100% of the screen size */ 
 #map { 
   height: 94%;
-  min-height: 400px;
+  min-height: 500px;
 }
 
 #map2 { 
   height: 90%;
-  min-height: 450px;
+  min-height: 480px;
   width: 70%;
-  max-height: 450px;
+  max-height: 460px;
   
 }
 

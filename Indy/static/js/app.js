@@ -320,6 +320,7 @@ function buildBus() {
 }
 buildBus();
 
+
 //*********  START of Resource Map  *************//
 
 function createMap2() {
@@ -356,8 +357,9 @@ function createMap2() {
       var marker = L.circleMarker(coordinates, {
           fillColor: 'red',
           color: 'red',
-          radius: 5,
-          weight: 1.4
+          radius: 6,
+          weight: 1
+          
         });
 
       //set up the pop up for the marker
