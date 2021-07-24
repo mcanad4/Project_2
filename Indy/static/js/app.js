@@ -9,12 +9,6 @@ var form = d3.select("form");
 filterButton.on("click", handlClick);
 form.on("submit", handlClick);
 
-var filterButton2 = d3.select("#filter-btn2");
-var form2 = d3.select("form2");
-// Create the event handlers, for click of button and on enter in the input field
-filterButton2.on("click", handlClickFood);
-form2.on("submit", handlClickFood);
-
 
 // =====================
 // Unemployment Claims Chart
@@ -303,49 +297,6 @@ function buildFood() {
 buildFood();
 
 // =====================
-// Food Filter and Table
-// =====================
-function buildFoodTable(zip) {
-    
-  // Get a reference to the table body
-  var tbody = d3.select('#food-tbody');
-  
-  // Clear out the table displayed each time filter function is used
-  tbody.html('');
-  
-  /* data route */
-  const url = "/api/food";
-
-  d3.json(url).then(function(foodData) {
-    
-  var filteredData = foodData.filter(obj=>obj['zip'] == zip);
-
-  filteredData.forEach(row => {
-
-    zipcode = row['zip'];
-    site = row['site_name'];
-    hours = row['hours'];
-    
-    var tr = tbody.append('tr');
-    tr.append('td').text(zipcode); 
-    tr.append('td').text(site);
-    tr.append('td').text(hours);
-        
-    })     
-  });
-}; // End of buildFoodTable();
-
-// Establish a function to filter by xip 
-function handlClickFood(){
-
-  d3.event.preventDefault()
-  var zip_code = d3.select('#location2').property("value");
-
-  buildFoodTable(zip);  
-
-};
-
-// =====================
 // Bus Data
 // =====================
 
@@ -403,9 +354,10 @@ function createMap2() {
 
       //create a marker for each record in the endpoint
       var marker = L.circleMarker(coordinates, {
-          fillColor: 'blue',
-          color: 'blue',
-          radius: 5
+          fillColor: 'red',
+          color: 'red',
+          radius: 5,
+          weight: 1.4
         });
 
       //set up the pop up for the marker
@@ -430,9 +382,11 @@ function createMap2() {
 
       //create a marker for each record in the endpoint
       var marker = L.circleMarker(coordinates, {
-          fillColor: 'red',
-          color: 'red',
-          radius: 2
+          fillColor: 'blue',
+          color: 'blue',
+          radius: 2,
+          weight: .7
+
         });
 
       //set up the pop up for the marker
@@ -460,7 +414,7 @@ function createMap() {
 
   var map = L.map("map", {
     center: [39.76853, -86.15799],
-    zoom: 11,
+    zoom: 10,
     layers: [baseMap]
   });
 
@@ -483,7 +437,8 @@ function createMap() {
       var marker = L.circleMarker(coordinates, {
         fillColor: 'blue',
         color: 'blue',
-        radius: 5
+        radius: 5,
+        weight: 1.8
       });
 
       //set up the pop up for the marker
