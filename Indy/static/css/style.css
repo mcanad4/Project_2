@@ -38,10 +38,13 @@ h4 {
 
 #map2 { 
   height: 90%;
-  min-height: 400px;
-  width: 50%
+  min-height: 450px;
+  width: 50%;
+  max-height: 900 px
+  
 }
 
+svg,
 .chart {
   max-width: 1250px;
 }

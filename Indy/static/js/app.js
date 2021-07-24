@@ -25,7 +25,7 @@ var margin = {
     top: 10,
     right: 60,
     bottom: 60,
-    left: 140
+    left: 100
 }
 
 var chartGroup = svg.append("g")
@@ -90,7 +90,7 @@ function buildUnemplChart() {
             .call(bottomAxis);
 
         chartGroup.append("g").call(leftAxis)
-            .style("font", "20px times");
+            .style("font", "16px times");
         
         var contLine = d3.line()    
             .x(d => xLinearScaleCont(d.index))
@@ -99,7 +99,7 @@ function buildUnemplChart() {
         chartGroup
             .append("path")
             .attr("d", contLine(claimsData))
-            .classed("line teal", true);
+            .classed("line darkblue", true);
 
         console.log(`contMax: ${contMax}`);
         console.log(`initMax: ${initMax}`);
@@ -116,22 +116,22 @@ function buildUnemplChart() {
             .classed("line orange", true);
 
         var labelsGroup = chartGroup.append("g")
-            .attr("transform", `translate(${-120}, ${50 + height / 2})`);
+            .attr("transform", `translate(${-80}, ${50 + height / 2})`);
         
         labelsGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .style("font", "20px times")
+        .style("font", "18px times")
         .style("font-family", "Segoe UI")
         .attr("text.anchor", "middle")
         .text("Claims per Week")
-        .style("font-weight", "bold")
-        .style("fill", "darkblue");   
+        //.style("font-weight", "bold")
+        .style("fill", "black");   
         
         // Create a rectangle and legend to sit in it
         legendGroup = svg.append("g")
         claimsLegend = legendGroup.append("rect") 
-            .attr("x", 230)
-            .attr("y", 50)
+            .attr("x", 130)
+            .attr("y", 22)
             .attr("rx", "8px")
             .attr("width", 280)
             .attr("height", 80)
@@ -139,16 +139,16 @@ function buildUnemplChart() {
             .attr("opacity", "0.8");
 
         legendGroup.append("text")
-            .attr("x", 240)
-            .attr("y", 80)
+            .attr("x", 145)
+            .attr("y", 50)
             .style("fill", "orange")
             .text("Weekly Initial Claims")
             .style("font-size", "20px")
             .style("font-weight", "bold");
 
         legendGroup.append("text")
-            .attr("x", 240)
-            .attr("y", 110)
+            .attr("x", 145)
+            .attr("y", 80)
             .style("fill", "teal")
             .text("Weekly Continued Claims")
             .style("font-size", "20px")
@@ -165,7 +165,7 @@ function buildUnemplChart() {
         // chartGroup
         //     .append("path")
         //     .attr("d", totalLine(claimsData))
-        //     .classed("line purple", true);
+        //     .classed("line teal", true);
         
         var timeframes = [];
         claimsData.forEach(function(data) {
