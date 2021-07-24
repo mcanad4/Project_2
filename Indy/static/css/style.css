@@ -40,7 +40,7 @@ h4 {
 
 /* set map, body, and html to 100% of the screen size */ 
 #map { 
-  height: 90%;
+  height: 94%;
   min-height: 400px;
 }
 
@@ -99,6 +99,9 @@ html {
   /* z-index: 1; */
 }
 
+.card {
+  font-size: 14px;
+}
 #canvas-basic {
   display: block;
   width: 100%;
